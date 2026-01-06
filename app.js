@@ -12,7 +12,8 @@
 
   const CONFIG = {
     intersectionThreshold: 0.1,
-    intersectionRootMargin: '0px 0px -50px 0px'
+    intersectionRootMargin: '0px 0px -50px 0px',
+    skillUnlockDelay: 80 // ms between skill unlocks
   };
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -21,6 +22,13 @@
 
   const videoModal = document.getElementById('videoModal');
   const videoPlayer = document.getElementById('videoPlayer');
+
+  // Era & Skills state
+  const STATE = {
+    currentEra: null,
+    unlockedSkills: new Set(),
+    skillQueue: []
+  };
 
   // ═══════════════════════════════════════════════════════════════════════════
   // Hero Rendering
@@ -70,6 +78,10 @@
     const node = document.createElement('article');
     node.className = 'timeline-node';
     node.style.transitionDelay = `${index * 0.05}s`;
+
+    // Era data for visual theming
+    node.dataset.era = entry.era || 'fondations';
+    node.dataset.index = index;
 
     const period = document.createElement('div');
     period.className = 'node-period';
@@ -159,8 +171,11 @@
     const card = document.createElement('div');
     card.className = 'project-card';
 
-    const videoWrap = createVideoArea(project);
-    card.appendChild(videoWrap);
+    // Only add video area if project has a video
+    if (project.video) {
+      const videoWrap = createVideoArea(project);
+      card.appendChild(videoWrap);
+    }
 
     const info = document.createElement('div');
     info.className = 'project-info';
@@ -172,6 +187,14 @@
     name.className = 'project-name';
     name.textContent = project.name;
     header.appendChild(name);
+
+    // Add private badge if repo is private
+    if (project.isPrivate) {
+      const privateBadge = document.createElement('span');
+      privateBadge.className = 'private-badge';
+      privateBadge.textContent = 'private';
+      header.appendChild(privateBadge);
+    }
 
     const links = createProjectLinks(project);
     if (links) header.appendChild(links);
@@ -336,6 +359,134 @@
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
+  // Era Tracking & Visual Themes
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  function setupEraTracking() {
+    const nodes = document.querySelectorAll('.timeline-node');
+    if (nodes.length === 0) return;
+
+    const eraObserver = new IntersectionObserver(
+      (entries) => {
+        // Find the most visible node
+        let mostVisible = null;
+        let maxRatio = 0;
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            mostVisible = entry.target;
+          }
+        });
+
+        if (mostVisible) {
+          const newEra = mostVisible.dataset.era;
+          if (newEra && newEra !== STATE.currentEra) {
+            transitionToEra(newEra);
+          }
+
+          // Unlock skills up to this node
+          const nodeIndex = parseInt(mostVisible.dataset.index, 10);
+          unlockSkillsUpTo(nodeIndex);
+        }
+      },
+      {
+        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
+        rootMargin: '-30% 0px -30% 0px'
+      }
+    );
+
+    nodes.forEach((node) => eraObserver.observe(node));
+  }
+
+  function transitionToEra(eraId) {
+    STATE.currentEra = eraId;
+    document.body.dataset.era = eraId;
+
+    // Update skill panel era label
+    const eraLabel = document.getElementById('eraLabel');
+    if (eraLabel && PORTFOLIO_DATA.eras && PORTFOLIO_DATA.eras[eraId]) {
+      eraLabel.textContent = PORTFOLIO_DATA.eras[eraId].name;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Progressive Skill Accumulation
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  function setupSkillPanel() {
+    const panel = document.getElementById('skillPanel');
+    const timeline = document.querySelector('.timeline-container');
+
+    if (!panel || !timeline) return;
+
+    // Show/hide skill panel based on timeline visibility
+    const panelObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            panel.classList.add('visible');
+          } else {
+            panel.classList.remove('visible');
+          }
+        });
+      },
+      { threshold: 0, rootMargin: '-10% 0px -10% 0px' }
+    );
+
+    panelObserver.observe(timeline);
+  }
+
+  function unlockSkillsUpTo(nodeIndex) {
+    if (!PORTFOLIO_DATA.timeline) return;
+
+    const skillList = document.getElementById('skillList');
+    const skillCount = document.getElementById('skillCount');
+    if (!skillList) return;
+
+    const newSkills = [];
+
+    // Collect all skills from entries 0 to nodeIndex
+    for (let i = 0; i <= nodeIndex && i < PORTFOLIO_DATA.timeline.length; i++) {
+      const entry = PORTFOLIO_DATA.timeline[i];
+      if (entry.skills) {
+        entry.skills.forEach((skill) => {
+          if (!STATE.unlockedSkills.has(skill)) {
+            STATE.unlockedSkills.add(skill);
+            newSkills.push(skill);
+          }
+        });
+      }
+    }
+
+    // Animate new skills with staggered delay
+    newSkills.forEach((skill, i) => {
+      setTimeout(() => {
+        addSkillToPanel(skill, skillList);
+      }, i * CONFIG.skillUnlockDelay);
+    });
+
+    // Update count
+    if (skillCount) {
+      const total = STATE.unlockedSkills.size;
+      skillCount.textContent = `${total} skill${total !== 1 ? 's' : ''}`;
+    }
+  }
+
+  function addSkillToPanel(skill, skillList) {
+    const li = document.createElement('li');
+    li.className = 'skill-item animating';
+    li.textContent = skill;
+    skillList.appendChild(li);
+
+    // After animation, change to unlocked state
+    setTimeout(() => {
+      li.classList.remove('animating');
+      li.classList.add('unlocked');
+    }, 500);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
   // Initialization
   // ═══════════════════════════════════════════════════════════════════════════
 
@@ -349,6 +500,8 @@
       }
       if (PORTFOLIO_DATA.timeline) {
         renderTimeline(PORTFOLIO_DATA.timeline);
+        setupEraTracking();
+        setupSkillPanel();
       }
     } else {
       console.error('PORTFOLIO_DATA not found. Make sure data.js is loaded before app.js');

@@ -22,6 +22,14 @@
   --border: #1a1a24;
   --border-subtle: #14141c;
 
+  /* Era Theme Variables */
+  --era-accent: var(--accent);
+  --era-accent-dim: var(--accent-dim);
+  --era1-accent: #00ffaa;
+  --era2-accent: #00d4ff;
+  --era3-accent: #a855f7;
+  --era4-accent: #00ffaa;
+
   /* Typography */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
@@ -467,6 +475,20 @@ a {
   margin-bottom: var(--space-sm);
 }
 
+.private-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2em 0.5em;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text-muted);
+  margin-left: var(--space-sm);
+  flex-shrink: 0;
+}
+
 .project-name {
   font-family: var(--font-display);
   font-size: 1.1rem;
@@ -717,4 +739,316 @@ a {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ERA VISUAL THEMES
+   Background and accent colors evolve as user scrolls through timeline
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Era 1: Fondations (2017-2019) - Terminal minimal */
+body[data-era="fondations"] {
+  --era-accent: var(--era1-accent);
+  --era-accent-dim: rgba(0, 255, 170, 0.25);
+}
+
+body[data-era="fondations"] .bg-glow {
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 0%,
+    rgba(0, 255, 170, 0.1) 0%,
+    transparent 70%
+  );
+}
+
+/* Era 2: L'Échelle (2019-2021) - Structure bleue */
+body[data-era="echelle"] {
+  --era-accent: var(--era2-accent);
+  --era-accent-dim: rgba(0, 212, 255, 0.25);
+}
+
+body[data-era="echelle"] .bg-glow {
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 0%,
+    rgba(0, 212, 255, 0.15) 0%,
+    transparent 70%
+  );
+}
+
+body[data-era="echelle"]::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+/* Era 3: Le Créatif (2022-2023) - Purple créatif */
+body[data-era="creatif"] {
+  --era-accent: var(--era3-accent);
+  --era-accent-dim: rgba(168, 85, 247, 0.25);
+}
+
+body[data-era="creatif"] .bg-glow {
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 70% 80%, rgba(0, 255, 170, 0.08) 0%, transparent 50%);
+}
+
+body[data-era="creatif"]::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(168, 85, 247, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: -1;
+  animation: gridPulse 4s ease-in-out infinite;
+}
+
+/* Era 4: Le Multiplicateur (2024-2025) - Neural mesh */
+body[data-era="multiplicateur"] {
+  --era-accent: var(--era4-accent);
+  --era-accent-dim: rgba(0, 255, 170, 0.25);
+}
+
+body[data-era="multiplicateur"] .bg-glow {
+  background:
+    radial-gradient(ellipse 50% 30% at 20% 30%, rgba(0, 255, 170, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 30% at 80% 70%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 255, 170, 0.08) 0%, transparent 60%);
+  animation: neuralPulse 6s ease-in-out infinite;
+}
+
+body[data-era="multiplicateur"]::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 255, 170, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 170, 0.02) 1px, transparent 1px),
+    linear-gradient(45deg, rgba(168, 85, 247, 0.015) 1px, transparent 1px);
+  background-size: 30px 30px, 30px 30px, 60px 60px;
+  pointer-events: none;
+  z-index: -1;
+  animation: neuralGrid 10s linear infinite;
+}
+
+/* Era transition animations */
+@keyframes gridPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes neuralPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+@keyframes neuralGrid {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 30px 30px, 30px 30px, 60px 60px; }
+}
+
+/* Smooth transitions between eras */
+body {
+  transition: --era-accent 0.8s var(--ease-out-expo);
+}
+
+body::after {
+  transition: opacity 0.8s var(--ease-out-expo);
+}
+
+.bg-glow {
+  transition: background 0.8s var(--ease-out-expo);
+}
+
+/* Update accent colors throughout the page based on era */
+body[data-era] .hero-tagline,
+body[data-era] .node-period,
+body[data-era] .footer-message {
+  color: var(--era-accent);
+}
+
+body[data-era] .timeline-node::before {
+  border-color: var(--era-accent);
+  box-shadow: 0 0 20px var(--era-accent-dim);
+}
+
+body[data-era] .timeline-node:hover::before {
+  background: var(--era-accent);
+  box-shadow: 0 0 30px var(--era-accent-dim);
+}
+
+body[data-era] .timeline-line-glow {
+  background: var(--era-accent);
+}
+
+body[data-era] .contact-link:hover {
+  color: var(--era-accent);
+  border-color: var(--era-accent-dim);
+}
+
+body[data-era] .scroll-arrow {
+  background: linear-gradient(to bottom, var(--era-accent), transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PROGRESSIVE SKILL PANEL
+   Fixed panel that accumulates skills as user scrolls
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.skill-panel {
+  position: fixed;
+  right: var(--space-lg);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 240px;
+  max-height: 60vh;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: var(--space-md);
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s var(--ease-out-expo);
+  overflow: hidden;
+}
+
+.skill-panel.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.skill-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-era-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--era-accent);
+  padding: 4px 8px;
+  background: var(--era-accent-dim);
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s var(--ease-out-quad);
+}
+
+.skill-count {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.skill-list {
+  list-style: none;
+  max-height: calc(60vh - 60px);
+  overflow-y: auto;
+  padding-right: var(--space-xs);
+}
+
+.skill-list::-webkit-scrollbar {
+  width: 3px;
+}
+
+.skill-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.skill-item {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  padding: var(--space-xs) 0;
+  opacity: 0;
+  transform: translateX(15px);
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.skill-item.unlocked {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.skill-item.new {
+  color: var(--era-accent);
+}
+
+.skill-item::before {
+  content: '+ ';
+  color: var(--era-accent);
+  opacity: 0.6;
+}
+
+/* Skill unlock animation */
+@keyframes skillUnlock {
+  0% {
+    opacity: 0;
+    transform: translateX(20px) scale(0.9);
+  }
+  60% {
+    transform: translateX(-3px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.skill-item.animating {
+  animation: skillUnlock 0.5s var(--ease-out-expo) forwards;
+}
+
+/* Mobile: Skill panel at bottom */
+@media (max-width: 1200px) {
+  .skill-panel {
+    right: var(--space-md);
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .skill-panel {
+    right: var(--space-sm);
+    left: var(--space-sm);
+    top: auto;
+    bottom: var(--space-md);
+    transform: none;
+    width: auto;
+    max-height: 150px;
+    border-radius: 8px;
+  }
+
+  .skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    max-height: 90px;
+  }
+
+  .skill-item {
+    padding: 4px 8px;
+    background: var(--bg-elevated);
+    border-radius: 3px;
+    font-size: 0.7rem;
+  }
+
+  .skill-item::before {
+    display: none;
+  }
 }
