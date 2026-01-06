@@ -22,25 +22,25 @@ const PORTFOLIO_DATA = {
       name: 'Les Fondations',
       years: '2017-2019',
       accent: '#00ffaa',
-      audioFile: 'audio/act1-fondations.mp3'
+      audioFile: 'audio/act1.mp3'
     },
     echelle: {
       name: "L'Échelle",
       years: '2019-2021',
       accent: '#00d4ff',
-      audioFile: 'audio/act2-echelle.mp3'
+      audioFile: 'audio/act2.mp3'
     },
     creatif: {
       name: 'Le Créatif',
       years: '2022-2023',
       accent: '#a855f7',
-      audioFile: 'audio/act3-creatif.mp3'
+      audioFile: 'audio/act3.mp3'
     },
     multiplicateur: {
       name: 'Le Multiplicateur',
       years: '2024-2025',
       accent: '#00ffaa',
-      audioFile: 'audio/act4-multiplicateur.mp3'
+      audioFile: 'audio/act4.mp3'
     }
   },
 

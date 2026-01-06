@@ -750,6 +750,20 @@ a {
   color: var(--accent);
 }
 
+.footer-contact {
+  margin-top: var(--space-lg);
+}
+
+.footer-contact .contact-link {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: color 0.2s var(--ease-out-quad);
+}
+
+.footer-contact .contact-link:hover {
+  color: var(--era-accent, var(--accent));
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
    Animations
    ───────────────────────────────────────────────────────────────────────────── */
@@ -1368,21 +1382,31 @@ body[data-era] .scroll-arrow {
   position: relative;
 }
 
+/* Pulsing bar to the LEFT of the timeline line (outside content) */
 .timeline-node.audio-active::after {
   content: '';
   position: absolute;
-  left: calc(var(--timeline-left) - 8px);
+  /* Position to the left of the timeline dot */
+  left: calc(-40px - var(--node-size) - 15px);
   top: 0;
   bottom: 0;
   width: 3px;
   background: var(--era-accent, var(--accent));
   border-radius: 2px;
   animation: pulseBar 1.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 @keyframes pulseBar {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.5; box-shadow: 0 0 5px var(--era-accent, var(--accent)); }
+  50% { opacity: 1; box-shadow: 0 0 15px var(--era-accent, var(--accent)); }
+}
+
+/* Mobile: adjust position */
+@media (max-width: 768px) {
+  .timeline-node.audio-active::after {
+    left: calc(-24px - var(--node-size) - 10px);
+  }
 }
 
 /* Mobile adjustments for audio controls */

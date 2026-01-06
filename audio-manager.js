@@ -6,48 +6,81 @@
 (function() {
   'use strict';
 
-  // Subtitles for each audio section (timestamps in seconds)
-  const SUBTITLES = {
+  // Raw subtitle text for each section (timestamps calculated dynamically)
+  const SUBTITLE_TEXTS = {
     intro: [
-      { start: 0, end: 3, text: "Salut. Moi c'est Ismaël." },
-      { start: 3, end: 7, text: "Ça fait huit ans que je construis des trucs avec du code." },
-      { start: 7, end: 12, text: "Des systèmes distribués, des jeux vidéo, des pipelines DevOps..." },
-      { start: 12, end: 15, text: "Et maintenant, des agents IA qui pensent pour moi." }
+      "Salut. Moi c'est Ismaël.",
+      "Ça fait huit ans que je construis des trucs avec du code.",
+      "Des systèmes distribués, des jeux vidéo, des pipelines DevOps...",
+      "Et maintenant, des agents IA qui pensent pour moi."
     ],
     fondations: [
-      { start: 0, end: 4, text: "2017. Ma première vraie job." },
-      { start: 4, end: 8, text: "Laboratoire Blockchain. Pas de React, pas de framework fancy." },
-      { start: 8, end: 13, text: "Juste du JavaScript brut, du Linux, et des interfaces qui parlent aux machines." },
-      { start: 13, end: 18, text: "C'est là que j'ai compris que le code, c'est pas juste des lignes sur un écran." },
-      { start: 18, end: 22, text: "C'est un système vivant qui doit tenir debout tout seul." }
+      "2017. Ma première vraie job.",
+      "Laboratoire Blockchain. Pas de React, pas de framework fancy.",
+      "Juste du JavaScript brut, du Linux, et des interfaces qui parlent aux machines.",
+      "C'est là que j'ai compris que le code, c'est pas juste des lignes sur un écran.",
+      "C'est un système vivant qui doit tenir debout tout seul."
     ],
     echelle: [
-      { start: 0, end: 4, text: "2019. Desjardins Assurance." },
-      { start: 4, end: 8, text: "Pas une startup. Une institution." },
-      { start: 8, end: 13, text: "Des clusters de VM qui gèrent des millions en assurance." },
-      { start: 13, end: 17, text: "Soudainement, mon code seul suffisait plus." },
-      { start: 17, end: 22, text: "Fallait des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls." }
+      "2019. Desjardins Assurance.",
+      "Pas une startup. Une institution.",
+      "Des clusters de VM qui gèrent des millions en assurance.",
+      "Soudainement, mon code seul suffisait plus.",
+      "Fallait des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls."
     ],
     creatif: [
-      { start: 0, end: 4, text: "2022. Changement de cap. Sarbakan." },
-      { start: 4, end: 8, text: "Game dev. Un monde où le code doit être beau ET rapide." },
-      { start: 8, end: 13, text: "Unity, C#, et ma première rencontre avec l'ECS." },
-      { start: 13, end: 18, text: "Les systèmes distribués du DevOps qui rencontrent le temps réel du jeu vidéo." },
-      { start: 18, end: 23, text: "Ensuite, la SQDC. Un choix délibéré. Plus de temps pour mes projets." }
+      "2022. Changement de cap. Sarbakan.",
+      "Game dev. Un monde où le code doit être beau ET rapide.",
+      "Unity, C#, et ma première rencontre avec l'ECS.",
+      "Les systèmes distribués du DevOps qui rencontrent le temps réel du jeu vidéo.",
+      "Ensuite, la SQDC. Un choix délibéré. Plus de temps pour mes projets."
     ],
     multiplicateur: [
-      { start: 0, end: 4, text: "2024. Le turning point." },
-      { start: 4, end: 9, text: "AEC en Intelligence Artificielle. Mais c'était pas juste apprendre." },
-      { start: 9, end: 14, text: "L'IA, c'est un multiplicateur de tout ce que je savais déjà faire." },
-      { start: 14, end: 19, text: "Deep Reinforcement Learning en C# pur. Des ennemis qui apprennent pendant qu'on joue." },
-      { start: 19, end: 24, text: "Des LLM locaux qui collaborent. Je code plus tout. J'orchestre." }
+      "2024. Le turning point.",
+      "AEC en Intelligence Artificielle. Mais c'était pas juste apprendre.",
+      "L'IA, c'est un multiplicateur de tout ce que je savais déjà faire.",
+      "Deep Reinforcement Learning en C# pur. Des ennemis qui apprennent pendant qu'on joue.",
+      "Des LLM locaux qui collaborent. Je code plus tout. J'orchestre."
     ],
     outro: [
-      { start: 0, end: 4, text: "Voilà. Huit ans résumés en quelques minutes." },
-      { start: 4, end: 9, text: "Du programmeur qui tape du code à l'architecte qui dirige des agents." },
-      { start: 9, end: 12, text: "Les tables ont tourné." }
+      "Voilà. Huit ans résumés en quelques minutes.",
+      "Du programmeur qui tape du code à l'architecte qui dirige des agents.",
+      "Les tables ont tourné."
     ]
   };
+
+  // Calculate duration based on word count (~150 words per minute = 2.5 words per second)
+  // Add small buffer for pauses between phrases
+  const WORDS_PER_SECOND = 2.2;
+  const PAUSE_BETWEEN_LINES = 0.3;
+
+  function calculateDuration(text) {
+    const words = text.split(/\s+/).length;
+    return (words / WORDS_PER_SECOND) + PAUSE_BETWEEN_LINES;
+  }
+
+  function buildSubtitles(texts) {
+    const subs = [];
+    let currentTime = 0.5; // Start with small delay
+
+    texts.forEach(text => {
+      const duration = calculateDuration(text);
+      subs.push({
+        start: currentTime,
+        end: currentTime + duration,
+        text: text
+      });
+      currentTime += duration;
+    });
+
+    return subs;
+  }
+
+  // Build subtitles with dynamic timestamps
+  const SUBTITLES = {};
+  Object.keys(SUBTITLE_TEXTS).forEach(key => {
+    SUBTITLES[key] = buildSubtitles(SUBTITLE_TEXTS[key]);
+  });
 
   class AudioManager {
     constructor() {
@@ -84,18 +117,11 @@
       }
 
       // Listen for era changes from app.js
-      document.addEventListener('eraChanged', (e) => {
-        if (this.isActive && !this.isPaused) {
-          const eraId = e.detail.era;
-          if (this.sectionQueue.includes(eraId) && eraId !== this.currentSection) {
-            // Find era index and update queue position
-            const eraIndex = this.sectionQueue.indexOf(eraId);
-            if (eraIndex > this.currentQueueIndex) {
-              this.currentQueueIndex = eraIndex;
-              this.playSection(eraId);
-            }
-          }
-        }
+      // NOTE: We no longer skip or change audio based on scroll
+      // The highlight stays on the current AUDIO section, not scroll position
+      document.addEventListener('eraChanged', () => {
+        // Don't change highlight based on scroll - keep it on current audio section
+        // highlightActiveNode is called in playSection() when audio changes
       });
     }
 
@@ -110,14 +136,7 @@
       }
 
       this.playSection('intro');
-
-      // Scroll to start of timeline after intro
-      setTimeout(() => {
-        const timeline = document.querySelector('.timeline-container');
-        if (timeline) {
-          timeline.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 3000);
+      // Auto-scroll is now handled by highlightActiveNode() for each section
     }
 
     playSection(sectionId) {
@@ -172,22 +191,23 @@
     }
 
     fadeIn(audio) {
-      audio.volume = 0;
-      audio.play().catch((e) => {
-        console.warn('Audio playback failed:', e);
-        // Auto-play might be blocked, show paused state
-        if (this.controls) this.controls.classList.add('paused');
-        this.isPaused = true;
-      });
+      // Wait for audio to be ready before playing
+      audio.volume = this.isMuted ? 0 : 0.8;
 
-      if (!this.isMuted) {
-        const target = 0.8;
-        let vol = 0;
-        const interval = setInterval(() => {
-          vol += 0.05;
-          if (audio) audio.volume = Math.min(vol, target);
-          if (vol >= target) clearInterval(interval);
-        }, 25);
+      const playWhenReady = () => {
+        audio.play().catch((e) => {
+          console.warn('Audio playback failed:', e);
+          // Auto-play might be blocked, show paused state
+          if (this.controls) this.controls.classList.add('paused');
+          this.isPaused = true;
+        });
+      };
+
+      // If audio is ready, play immediately, otherwise wait
+      if (audio.readyState >= 2) {
+        playWhenReady();
+      } else {
+        audio.addEventListener('canplay', playWhenReady, { once: true });
       }
     }
 
@@ -265,12 +285,47 @@
       // Find and highlight node matching this era
       if (sectionId !== 'intro' && sectionId !== 'outro') {
         const nodes = document.querySelectorAll('.timeline-node');
+        let firstMatchingNode = null;
+
         nodes.forEach(node => {
           if (node.dataset.era === sectionId) {
             node.classList.add('audio-active');
+            if (!firstMatchingNode) {
+              firstMatchingNode = node;
+            }
           }
         });
+
+        // Auto-scroll to the first matching node
+        if (firstMatchingNode) {
+          this.scrollToNode(firstMatchingNode);
+        }
+      } else if (sectionId === 'intro') {
+        // Scroll to hero for intro
+        const hero = document.querySelector('.hero');
+        if (hero) {
+          hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else if (sectionId === 'outro') {
+        // Scroll to footer for outro
+        const footer = document.querySelector('.footer');
+        if (footer) {
+          footer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       }
+    }
+
+    scrollToNode(node) {
+      // Calculate position to center the node in viewport
+      const rect = node.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const nodeCenter = rect.top + rect.height / 2;
+      const targetScroll = window.scrollY + nodeCenter - viewportHeight / 3;
+
+      window.scrollTo({
+        top: Math.max(0, targetScroll),
+        behavior: 'smooth'
+      });
     }
 
     togglePlayPause() {
