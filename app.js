@@ -27,7 +27,9 @@
   const STATE = {
     currentEra: null,
     unlockedSkills: new Set(),
-    skillQueue: []
+    skillQueue: [],
+    maxUnlockedIndex: -1,  // Track highest node index reached
+    isInitialized: false   // Prevent batch unlock on page load
   };
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -366,8 +368,17 @@
     const nodes = document.querySelectorAll('.timeline-node');
     if (nodes.length === 0) return;
 
+    // Delay initialization to prevent batch unlock on page load
+    setTimeout(() => {
+      STATE.isInitialized = true;
+      // Start with first node's skills only
+      unlockSkillsUpTo(0);
+    }, 500);
+
     const eraObserver = new IntersectionObserver(
       (entries) => {
+        if (!STATE.isInitialized) return;
+
         // Find the most visible node
         let mostVisible = null;
         let maxRatio = 0;
@@ -385,9 +396,12 @@
             transitionToEra(newEra);
           }
 
-          // Unlock skills up to this node
+          // Only unlock skills progressively (no going backwards)
           const nodeIndex = parseInt(mostVisible.dataset.index, 10);
-          unlockSkillsUpTo(nodeIndex);
+          if (nodeIndex > STATE.maxUnlockedIndex) {
+            STATE.maxUnlockedIndex = nodeIndex;
+            unlockSkillsUpTo(nodeIndex);
+          }
         }
       },
       {
@@ -446,17 +460,16 @@
 
     const newSkills = [];
 
-    // Collect all skills from entries 0 to nodeIndex
-    for (let i = 0; i <= nodeIndex && i < PORTFOLIO_DATA.timeline.length; i++) {
-      const entry = PORTFOLIO_DATA.timeline[i];
-      if (entry.skills) {
-        entry.skills.forEach((skill) => {
-          if (!STATE.unlockedSkills.has(skill)) {
-            STATE.unlockedSkills.add(skill);
-            newSkills.push(skill);
-          }
-        });
-      }
+    // Only collect skills from this specific node (not all previous ones)
+    // Previous nodes' skills were already unlocked when we scrolled past them
+    const entry = PORTFOLIO_DATA.timeline[nodeIndex];
+    if (entry && entry.skills) {
+      entry.skills.forEach((skill) => {
+        if (!STATE.unlockedSkills.has(skill)) {
+          STATE.unlockedSkills.add(skill);
+          newSkills.push(skill);
+        }
+      });
     }
 
     // Animate new skills with staggered delay
@@ -466,11 +479,13 @@
       }, i * CONFIG.skillUnlockDelay);
     });
 
-    // Update count
-    if (skillCount) {
-      const total = STATE.unlockedSkills.size;
-      skillCount.textContent = `${total} skill${total !== 1 ? 's' : ''}`;
-    }
+    // Update count after animations complete
+    setTimeout(() => {
+      if (skillCount) {
+        const total = STATE.unlockedSkills.size;
+        skillCount.textContent = `${total} skill${total !== 1 ? 's' : ''}`;
+      }
+    }, newSkills.length * CONFIG.skillUnlockDelay);
   }
 
   function addSkillToPanel(skill, skillList) {
