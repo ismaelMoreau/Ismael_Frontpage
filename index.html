@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ismaël Moreau — Tables Have Turned</title>
+  <meta name="description" content="Creative technologist moving fluidly between DevOps, Games, and AI. Portfolio timeline.">
+
+  <!-- Fonts: Space Grotesk for headlines, JetBrains Mono for code/tech, Instrument Serif for narrative -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Atmospheric background -->
+  <div class="bg-grain"></div>
+  <div class="bg-glow"></div>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <p class="hero-pre mono">// portfolio.render()</p>
+      <h1 class="hero-name"></h1>
+      <p class="hero-tagline"></p>
+      <div class="hero-contact">
+        <a href="#" class="contact-link mono" data-contact="email"></a>
+        <span class="separator">·</span>
+        <a href="#" class="contact-link mono" data-contact="github"></a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span class="mono">scroll to descend</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </header>
+
+  <!-- Timeline -->
+  <main class="timeline-container">
+    <div class="timeline-line">
+      <div class="timeline-line-glow"></div>
+    </div>
+    <div class="timeline" id="timeline">
+      <!-- Nodes rendered by app.js -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p class="mono">// end of timeline</p>
+      <p class="footer-message">Tables have turned.</p>
+    </div>
+  </footer>
+
+  <!-- Video Modal -->
+  <div class="video-modal" id="videoModal">
+    <div class="video-modal-backdrop"></div>
+    <div class="video-modal-content">
+      <button class="video-close" aria-label="Close video">×</button>
+      <video class="video-player" id="videoPlayer" controls></video>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
