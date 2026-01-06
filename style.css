@@ -1187,3 +1187,229 @@ body[data-era] .scroll-arrow {
     display: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AUDIO TOUR
+   Opt-in guided tour with narration
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Tour Button in Hero */
+.hero-actions {
+  margin-top: var(--space-xl);
+}
+
+.tour-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: transparent;
+  border: 2px solid var(--accent);
+  border-radius: 50px;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out-quad);
+}
+
+.tour-button:hover {
+  background: var(--accent);
+  color: var(--bg-void);
+  box-shadow: 0 0 30px var(--accent-dim);
+}
+
+.tour-button:hover .tour-icon {
+  transform: scale(1.1);
+}
+
+.tour-icon {
+  font-size: 0.8rem;
+  transition: transform 0.3s var(--ease-out-quad);
+}
+
+/* Audio Controls Bar */
+.audio-controls {
+  position: fixed;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(12, 12, 18, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.audio-controls.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.audio-controls button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--bg-elevated);
+  border-radius: 50%;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out-quad);
+}
+
+.audio-controls button:hover {
+  background: var(--era-accent, var(--accent));
+  color: var(--bg-void);
+}
+
+.audio-play-pause .icon-pause,
+.audio-controls.paused .audio-play-pause .icon-play {
+  display: none;
+}
+
+.audio-controls.paused .audio-play-pause .icon-pause {
+  display: none;
+}
+
+.audio-controls.paused .audio-play-pause .icon-play {
+  display: block;
+}
+
+.audio-play-pause .icon-play {
+  display: none;
+}
+
+.audio-controls:not(.paused) .audio-play-pause .icon-play {
+  display: none;
+}
+
+.audio-controls:not(.paused) .audio-play-pause .icon-pause {
+  display: block;
+}
+
+.audio-controls.paused .audio-play-pause .icon-play {
+  display: block;
+}
+
+.audio-controls.paused .audio-play-pause .icon-pause {
+  display: none;
+}
+
+.audio-mute .icon-muted,
+.audio-controls.muted .audio-mute .icon-sound {
+  display: none;
+}
+
+.audio-controls.muted .audio-mute .icon-muted {
+  display: block;
+}
+
+.audio-progress {
+  width: 120px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.audio-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--era-accent, var(--accent));
+  transition: width 0.1s linear;
+}
+
+.audio-close {
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+/* Audio Subtitle */
+.audio-subtitle {
+  position: fixed;
+  bottom: calc(var(--space-lg) + 60px);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  max-width: 600px;
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(12, 12, 18, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.5;
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s var(--ease-out-quad);
+}
+
+.audio-subtitle.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Timeline node highlight during audio */
+.timeline-node.audio-active {
+  position: relative;
+}
+
+.timeline-node.audio-active::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--timeline-left) - 8px);
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--era-accent, var(--accent));
+  border-radius: 2px;
+  animation: pulseBar 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseBar {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Mobile adjustments for audio controls */
+@media (max-width: 768px) {
+  .audio-controls {
+    bottom: var(--space-md);
+    padding: var(--space-xs) var(--space-sm);
+    gap: var(--space-sm);
+  }
+
+  .audio-controls button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .audio-progress {
+    width: 80px;
+  }
+
+  .audio-subtitle {
+    bottom: calc(var(--space-md) + 50px);
+    max-width: calc(100vw - var(--space-lg) * 2);
+    font-size: 0.9rem;
+  }
+
+  .tour-button {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.85rem;
+  }
+}

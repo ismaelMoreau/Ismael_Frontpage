@@ -29,6 +29,12 @@
         <span class="separator">·</span>
         <a href="#" class="contact-link mono" data-contact="github"></a>
       </div>
+      <div class="hero-actions">
+        <button class="tour-button" id="startTour">
+          <span class="tour-icon">&#9658;</span>
+          <span>Visite guidée</span>
+        </button>
+      </div>
     </div>
     <div class="scroll-indicator">
       <span class="mono">scroll to descend</span>
@@ -74,7 +80,27 @@
     </div>
   </div>
 
+  <!-- Audio Tour Controls -->
+  <div class="audio-controls" id="audioControls">
+    <button class="audio-play-pause" id="audioPlayPause" aria-label="Play/Pause">
+      <span class="icon-play">&#9658;</span>
+      <span class="icon-pause">&#10074;&#10074;</span>
+    </button>
+    <div class="audio-progress">
+      <div class="audio-progress-bar" id="audioProgressBar"></div>
+    </div>
+    <button class="audio-mute" id="audioMute" aria-label="Mute">
+      <span class="icon-sound">&#128266;</span>
+      <span class="icon-muted">&#128263;</span>
+    </button>
+    <button class="audio-close" id="audioClose" aria-label="Close tour">×</button>
+  </div>
+
+  <!-- Audio Subtitle -->
+  <div class="audio-subtitle" id="audioSubtitle"></div>
+
   <script src="data.js"></script>
+  <script src="audio-manager.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

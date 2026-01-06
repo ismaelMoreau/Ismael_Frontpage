@@ -509,6 +509,11 @@
     if (eraLabel && PORTFOLIO_DATA.eras && PORTFOLIO_DATA.eras[eraId]) {
       eraLabel.textContent = PORTFOLIO_DATA.eras[eraId].name;
     }
+
+    // Dispatch event for audio manager
+    document.dispatchEvent(new CustomEvent('eraChanged', {
+      detail: { era: eraId }
+    }));
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -604,6 +609,15 @@
   // Initialization
   // ═══════════════════════════════════════════════════════════════════════════
 
+  function setupAudioTour() {
+    const tourButton = document.getElementById('startTour');
+    if (tourButton && window.AudioManager) {
+      tourButton.addEventListener('click', () => {
+        window.AudioManager.start();
+      });
+    }
+  }
+
   function init() {
     setupVideoModal();
 
@@ -617,6 +631,7 @@
         setupEraTracking();
         setupSkillPanel();
       }
+      setupAudioTour();
     } else {
       console.error('PORTFOLIO_DATA not found. Make sure data.js is loaded before app.js');
     }
