@@ -1134,6 +1134,21 @@ body[data-era] .scroll-arrow {
   animation: skillUnlock 0.5s var(--ease-out-expo) forwards;
 }
 
+.skill-item.removing {
+  animation: skillRemove 0.3s var(--ease-out-quad) forwards;
+}
+
+@keyframes skillRemove {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
 /* Mobile: Skill panel at bottom */
 @media (max-width: 1200px) {
   .skill-panel {

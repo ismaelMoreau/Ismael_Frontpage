@@ -26,9 +26,7 @@
   // Era & Skills state
   const STATE = {
     currentEra: null,
-    unlockedSkills: new Set(),
-    skillQueue: [],
-    maxUnlockedIndex: -1,  // Track highest node index reached
+    currentNodeIndex: -1,  // Track current visible node
     isInitialized: false   // Prevent batch unlock on page load
   };
 
@@ -432,10 +430,22 @@
     // Delay initialization to prevent batch unlock on page load
     setTimeout(() => {
       STATE.isInitialized = true;
-      // Start with first node's skills only
-      unlockSkillsUpTo(0);
+      updateSkillsForCurrentScroll();
     }, 500);
 
+    // Use scroll listener for more reliable tracking (works with drag)
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      if (!STATE.isInitialized) return;
+
+      // Throttle scroll updates
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        updateSkillsForCurrentScroll();
+      }, 50);
+    }, { passive: true });
+
+    // Also use IntersectionObserver for era transitions
     const eraObserver = new IntersectionObserver(
       (entries) => {
         if (!STATE.isInitialized) return;
@@ -456,13 +466,6 @@
           if (newEra && newEra !== STATE.currentEra) {
             transitionToEra(newEra);
           }
-
-          // Only unlock skills progressively (no going backwards)
-          const nodeIndex = parseInt(mostVisible.dataset.index, 10);
-          if (nodeIndex > STATE.maxUnlockedIndex) {
-            STATE.maxUnlockedIndex = nodeIndex;
-            unlockSkillsUpTo(nodeIndex);
-          }
         }
       },
       {
@@ -472,6 +475,29 @@
     );
 
     nodes.forEach((node) => eraObserver.observe(node));
+  }
+
+  function updateSkillsForCurrentScroll() {
+    const nodes = document.querySelectorAll('.timeline-node');
+    if (nodes.length === 0) return;
+
+    const viewportCenter = window.innerHeight / 2;
+    let currentIndex = 0;
+
+    // Find which node is at or above viewport center
+    nodes.forEach((node, index) => {
+      const rect = node.getBoundingClientRect();
+      // Node is considered "reached" when its top passes 60% of viewport
+      if (rect.top < viewportCenter + window.innerHeight * 0.1) {
+        currentIndex = index;
+      }
+    });
+
+    // Only update if index changed
+    if (currentIndex !== STATE.currentNodeIndex) {
+      STATE.currentNodeIndex = currentIndex;
+      rebuildSkillList(currentIndex);
+    }
   }
 
   function transitionToEra(eraId) {
@@ -512,54 +538,66 @@
     panelObserver.observe(timeline);
   }
 
-  function unlockSkillsUpTo(nodeIndex) {
+  function rebuildSkillList(nodeIndex) {
     if (!PORTFOLIO_DATA.timeline) return;
 
     const skillList = document.getElementById('skillList');
     const skillCount = document.getElementById('skillCount');
     if (!skillList) return;
 
-    const newSkills = [];
+    // Collect all skills up to current node index
+    const skillsToShow = [];
+    const seenSkills = new Set();
 
-    // Only collect skills from this specific node (not all previous ones)
-    // Previous nodes' skills were already unlocked when we scrolled past them
-    const entry = PORTFOLIO_DATA.timeline[nodeIndex];
-    if (entry && entry.skills) {
-      entry.skills.forEach((skill) => {
-        if (!STATE.unlockedSkills.has(skill)) {
-          STATE.unlockedSkills.add(skill);
-          newSkills.push(skill);
-        }
-      });
+    for (let i = 0; i <= nodeIndex && i < PORTFOLIO_DATA.timeline.length; i++) {
+      const entry = PORTFOLIO_DATA.timeline[i];
+      if (entry && entry.skills) {
+        entry.skills.forEach((skill) => {
+          if (!seenSkills.has(skill)) {
+            seenSkills.add(skill);
+            skillsToShow.push(skill);
+          }
+        });
+      }
     }
 
-    // Animate new skills with staggered delay
-    newSkills.forEach((skill, i) => {
+    // Get current skills in the DOM
+    const currentSkillEls = skillList.querySelectorAll('.skill-item');
+    const currentSkills = Array.from(currentSkillEls).map(el => el.textContent);
+
+    // Determine what to add/remove
+    const toAdd = skillsToShow.filter(s => !currentSkills.includes(s));
+    const toRemove = currentSkills.filter(s => !skillsToShow.includes(s));
+
+    // Remove skills that shouldn't be shown anymore
+    toRemove.forEach(skill => {
+      const el = Array.from(currentSkillEls).find(el => el.textContent === skill);
+      if (el) {
+        el.classList.add('removing');
+        setTimeout(() => el.remove(), 300);
+      }
+    });
+
+    // Add new skills with staggered animation
+    toAdd.forEach((skill, i) => {
       setTimeout(() => {
-        addSkillToPanel(skill, skillList);
+        const li = document.createElement('li');
+        li.className = 'skill-item animating';
+        li.textContent = skill;
+        skillList.appendChild(li);
+
+        setTimeout(() => {
+          li.classList.remove('animating');
+          li.classList.add('unlocked');
+        }, 400);
       }, i * CONFIG.skillUnlockDelay);
     });
 
-    // Update count after animations complete
-    setTimeout(() => {
-      if (skillCount) {
-        const total = STATE.unlockedSkills.size;
-        skillCount.textContent = `${total} skill${total !== 1 ? 's' : ''}`;
-      }
-    }, newSkills.length * CONFIG.skillUnlockDelay);
-  }
-
-  function addSkillToPanel(skill, skillList) {
-    const li = document.createElement('li');
-    li.className = 'skill-item animating';
-    li.textContent = skill;
-    skillList.appendChild(li);
-
-    // After animation, change to unlocked state
-    setTimeout(() => {
-      li.classList.remove('animating');
-      li.classList.add('unlocked');
-    }, 500);
+    // Update count
+    if (skillCount) {
+      const total = skillsToShow.length;
+      skillCount.textContent = `${total} skill${total !== 1 ? 's' : ''}`;
+    }
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
