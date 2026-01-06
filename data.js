@@ -230,7 +230,7 @@ const PORTFOLIO_DATA = {
           repo: "ismaelMoreau/Dota_2_MCP_Server_",
           oneLiner: "Model Context Protocol + bot Discord coach. L'IA qui analyse ta game et te conseille en temps réel via TTS.",
           tech: ["Python", "FastAPI", "Discord.py", "Docker", "MCP Protocol"],
-          link: "https://github.com/ismaelMoreau/Dota_2_MCP_Server_"
+          link: null
         },
         {
           name: "PersonnaNpc",
