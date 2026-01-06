@@ -462,6 +462,126 @@ a {
   font-size: 0.8rem;
 }
 
+/* Thumbnail area (static image) */
+.project-thumbnail-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+
+.project-thumbnail-wrap .project-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: all 0.4s var(--ease-out-quad);
+}
+
+.project-thumbnail-wrap:hover .project-thumbnail {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.project-link-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out-quad);
+}
+
+.project-link-overlay span {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  padding: 0.5em 1em;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  transition: all 0.3s var(--ease-out-quad);
+}
+
+.project-thumbnail-wrap:hover .project-link-overlay {
+  opacity: 1;
+}
+
+.project-link-overlay:hover span {
+  background: var(--accent);
+  color: var(--bg-void);
+}
+
+/* Live preview area (for projects with link but no video/thumbnail) */
+.project-live-preview {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out-quad);
+  border-bottom: 1px solid var(--border);
+}
+
+.project-live-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 49%, var(--border-subtle) 49%, var(--border-subtle) 51%, transparent 51%),
+    linear-gradient(0deg, transparent 49%, var(--border-subtle) 49%, var(--border-subtle) 51%, transparent 51%);
+  background-size: 20px 20px;
+  opacity: 0.3;
+  transition: opacity 0.3s var(--ease-out-quad);
+}
+
+.project-live-preview:hover::before {
+  opacity: 0.5;
+}
+
+.project-live-preview:hover {
+  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-elevated) 100%);
+}
+
+.live-preview-icon {
+  font-size: 2rem;
+  color: var(--era-accent, var(--accent));
+  opacity: 0.8;
+  transition: all 0.3s var(--ease-out-quad);
+  z-index: 1;
+}
+
+.project-live-preview:hover .live-preview-icon {
+  opacity: 1;
+  transform: translate(3px, -3px);
+}
+
+.live-preview-label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  z-index: 1;
+  transition: color 0.3s var(--ease-out-quad);
+}
+
+.project-live-preview:hover .live-preview-label {
+  color: var(--era-accent, var(--accent));
+}
+
+.live-preview-url {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  z-index: 1;
+}
+
 /* Project info */
 .project-info {
   padding: var(--space-md);
@@ -906,11 +1026,11 @@ body[data-era] .scroll-arrow {
 
 .skill-panel {
   position: fixed;
-  right: var(--space-lg);
+  left: var(--space-lg);
   top: 50%;
   transform: translateY(-50%);
-  width: 240px;
-  max-height: 60vh;
+  width: 220px;
+  max-height: 80vh;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -956,7 +1076,7 @@ body[data-era] .scroll-arrow {
 
 .skill-list {
   list-style: none;
-  max-height: calc(60vh - 60px);
+  max-height: calc(80vh - 60px);
   overflow-y: auto;
   padding-right: var(--space-xs);
 }
@@ -1017,8 +1137,8 @@ body[data-era] .scroll-arrow {
 /* Mobile: Skill panel at bottom */
 @media (max-width: 1200px) {
   .skill-panel {
-    right: var(--space-md);
-    width: 200px;
+    left: var(--space-md);
+    width: 180px;
   }
 }
 

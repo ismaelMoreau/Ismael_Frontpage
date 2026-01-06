@@ -173,10 +173,16 @@
     const card = document.createElement('div');
     card.className = 'project-card';
 
-    // Only add video area if project has a video
+    // Add media area: video, thumbnail, or live preview
     if (project.video) {
       const videoWrap = createVideoArea(project);
       card.appendChild(videoWrap);
+    } else if (project.thumbnail) {
+      const thumbWrap = createThumbnailArea(project);
+      card.appendChild(thumbWrap);
+    } else if (project.link) {
+      const previewWrap = createLivePreviewArea(project);
+      card.appendChild(previewWrap);
     }
 
     const info = document.createElement('div');
@@ -257,6 +263,61 @@
       noVideo.textContent = '// no demo video';
       wrap.appendChild(noVideo);
     }
+
+    return wrap;
+  }
+
+  function createThumbnailArea(project) {
+    const wrap = document.createElement('div');
+    wrap.className = 'project-thumbnail-wrap';
+
+    const thumb = document.createElement('img');
+    thumb.className = 'project-thumbnail';
+    thumb.src = project.thumbnail;
+    thumb.alt = `${project.name} preview`;
+    thumb.loading = 'lazy';
+    wrap.appendChild(thumb);
+
+    if (project.link) {
+      const linkOverlay = document.createElement('a');
+      linkOverlay.className = 'project-link-overlay';
+      linkOverlay.href = project.link;
+      linkOverlay.target = '_blank';
+      linkOverlay.rel = 'noopener noreferrer';
+      linkOverlay.innerHTML = '<span>View Live</span>';
+      wrap.appendChild(linkOverlay);
+    }
+
+    return wrap;
+  }
+
+  function createLivePreviewArea(project) {
+    const wrap = document.createElement('a');
+    wrap.className = 'project-live-preview';
+    wrap.href = project.link;
+    wrap.target = '_blank';
+    wrap.rel = 'noopener noreferrer';
+
+    const icon = document.createElement('div');
+    icon.className = 'live-preview-icon';
+    icon.innerHTML = '↗';
+    wrap.appendChild(icon);
+
+    const label = document.createElement('span');
+    label.className = 'live-preview-label';
+    label.textContent = 'View Live Demo';
+    wrap.appendChild(label);
+
+    const url = document.createElement('span');
+    url.className = 'live-preview-url';
+    // Extract domain from URL
+    try {
+      const urlObj = new URL(project.link);
+      url.textContent = urlObj.hostname;
+    } catch {
+      url.textContent = project.link;
+    }
+    wrap.appendChild(url);
 
     return wrap;
   }
