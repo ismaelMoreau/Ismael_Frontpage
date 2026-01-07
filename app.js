@@ -249,8 +249,11 @@
     const card = document.createElement('div');
     card.className = 'project-card';
 
-    // Add media area: video, thumbnail, or live preview
-    if (project.video) {
+    // Add media area: video(s), thumbnail, or live preview
+    if (project.videos && project.videos.length > 0) {
+      const videoWrap = createMultiVideoArea(project);
+      card.appendChild(videoWrap);
+    } else if (project.video) {
       const videoWrap = createVideoArea(project);
       card.appendChild(videoWrap);
     } else if (project.thumbnail) {
@@ -354,6 +357,31 @@
       noVideo.textContent = '// no demo video';
       wrap.appendChild(noVideo);
     }
+
+    return wrap;
+  }
+
+  function createMultiVideoArea(project) {
+    const wrap = document.createElement('div');
+    wrap.className = 'project-multi-video-wrap';
+
+    project.videos.forEach((videoSrc, index) => {
+      const videoItem = document.createElement('div');
+      videoItem.className = 'project-video-item';
+      videoItem.dataset.video = videoSrc;
+
+      const play = document.createElement('div');
+      play.className = 'project-play';
+      videoItem.appendChild(play);
+
+      const label = document.createElement('span');
+      label.className = 'video-label';
+      label.textContent = `${index + 1}`;
+      videoItem.appendChild(label);
+
+      videoItem.addEventListener('click', () => openVideoModal(videoSrc));
+      wrap.appendChild(videoItem);
+    });
 
     return wrap;
   }

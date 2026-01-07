@@ -226,7 +226,7 @@ const PORTFOLIO_DATA = {
         {
           name: "P5 RPG",
           repo: "ismaelMoreau/P5_rpg",
-          video: "videos/P5_rpg-bubble.mkv",
+          videos: ["videos/P5_rpg-bubble.mkv", "videos/P5_rpg-tp_ai_renforcement.mp4"],
           oneLiner: "Le début de mon engouement pour l'IA: compagnons autonomes pilotés par renforcement. Prototype RPG développé avant Sarbakan.",
           tech: ["JavaScript", "p5.js", "Canvas", "Reinforcement Learning", "AI Companions"],
           isPersonal: true,
