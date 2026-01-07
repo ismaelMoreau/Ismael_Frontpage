@@ -9,28 +9,28 @@ Scripts pour générer les fichiers audio TTS. Chaque section dure environ 20-25
 > Salut. Moi c'est Ismaël.
 > Ça fait huit ans que je construis des trucs avec du code.
 > Des systèmes distribués, des jeux vidéo, des pipelines DevOps...
-> Et maintenant, des agents IA qui pensent pour moi.
+> Et maintenant, des agents IA qui agissent pour moi.
 > Laisse-moi te montrer comment j'en suis arrivé là.
 
 ---
 
-## Acte 1: Les Fondations (~22s)
+## Acte 1: Les Fondations (~24s)
 
 > 2017. Ma première vraie job.
 > Laboratoire Blockchain. Pas de React, pas de framework fancy.
-> Juste du JavaScript brut, du Linux, et des interfaces qui parlent directement aux machines.
+> Du JavaScript brut, du Linux, MongoDB pour les données, et des interfaces qui parlent aux machines.
 > C'est là que j'ai compris que le code, c'est pas juste des lignes sur un écran.
 > C'est un système vivant qui doit tenir debout tout seul.
 
 ---
 
-## Acte 2: L'Échelle (~22s)
+## Acte 2: L'Échelle (~24s)
 
 > 2019. Desjardins Assurance.
 > Pas une startup. Une institution.
 > Des clusters de VM qui gèrent des millions en assurance.
 > Soudainement, mon code seul suffisait plus.
-> Fallait des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls pendant que tu dors.
+> Fallait des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls à travers dev, QA et Prod.
 > Le cloud est devenu mon terrain de jeu.
 
 ---
@@ -38,7 +38,7 @@ Scripts pour générer les fichiers audio TTS. Chaque section dure environ 20-25
 ## Acte 3: Le Créatif (~25s)
 
 > 2022. Changement de cap. Sarbakan, un studio de jeux.
-> Game dev. Un monde où le code doit être beau ET rapide.
+> Game dev. Un monde où le code doit être beau et rapide.
 > Unity, C#, React, et ma première rencontre avec l'ECS.
 > Les systèmes distribués du DevOps qui rencontrent les systèmes temps réel du jeu vidéo.
 > Ensuite, la SQDC. Un choix stratégique.

@@ -17,7 +17,7 @@
     fondations: [
       "2017. Ma première vraie job.",
       "Laboratoire Blockchain. Pas de React, pas de framework fancy.",
-      "Juste du JavaScript brut, du Linux, et des interfaces qui parlent aux machines.",
+      "Du JavaScript brut, du Linux, MongoDB pour les données, et des interfaces qui parlent aux machines.",
       "C'est là que j'ai compris que le code, c'est pas juste des lignes sur un écran.",
       "C'est un système vivant qui doit tenir debout tout seul."
     ],
@@ -26,7 +26,7 @@
       "Pas une startup. Une institution.",
       "Des clusters de VM qui gèrent des millions en assurance.",
       "Soudainement, mon code seul suffisait plus.",
-      "Fallait des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls."
+      "Fallait des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls à travers dev, QA et Prod."
     ],
     creatif: [
       "2022. Changement de cap. Sarbakan.",
