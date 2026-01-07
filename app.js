@@ -681,6 +681,51 @@
     panelObserver.observe(timeline);
   }
 
+  // Mobile skill panel toggle
+  function setupSkillToggle() {
+    const toggle = document.getElementById('skillToggle');
+    const panel = document.getElementById('skillPanel');
+
+    if (!toggle || !panel) return;
+
+    toggle.addEventListener('click', () => {
+      panel.classList.toggle('mobile-open');
+      toggle.setAttribute('aria-expanded', panel.classList.contains('mobile-open'));
+    });
+
+    // Close panel when clicking outside
+    document.addEventListener('click', (e) => {
+      if (panel.classList.contains('mobile-open') &&
+          !panel.contains(e.target) &&
+          !toggle.contains(e.target)) {
+        panel.classList.remove('mobile-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close on scroll for cleaner UX
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      if (Math.abs(window.scrollY - lastScrollY) > 50) {
+        panel.classList.remove('mobile-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        lastScrollY = window.scrollY;
+      }
+    }, { passive: true });
+  }
+
+  // Update mobile toggle count
+  function updateSkillToggleCount(count) {
+    const toggleCount = document.getElementById('skillToggleCount');
+    const toggle = document.getElementById('skillToggle');
+    if (toggleCount) {
+      toggleCount.textContent = count;
+    }
+    if (toggle) {
+      toggle.classList.toggle('has-skills', count > 0);
+    }
+  }
+
   // Track pending skill additions to prevent duplicates during rapid scrolling
   let pendingSkillAdditions = new Set();
 
@@ -752,10 +797,12 @@
     });
 
     // Update count
+    const total = skillsToShow.length;
     if (skillCount) {
-      const total = skillsToShow.length;
       skillCount.textContent = `${total} skill${total !== 1 ? 's' : ''}`;
     }
+    // Update mobile toggle count
+    updateSkillToggleCount(total);
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -819,6 +866,7 @@
         renderTimeline(PORTFOLIO_DATA.timeline);
         setupEraTracking();
         setupSkillPanel();
+        setupSkillToggle();
       }
       setupAudioTour();
     } else {
