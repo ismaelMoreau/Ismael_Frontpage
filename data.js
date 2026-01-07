@@ -3,6 +3,112 @@
  * "Du programmeur qui code tout à l'orchestrateur qui dirige des agents"
  */
 
+// ═══════════════════════════════════════════════════════════════════════════
+// TRANSLATIONS
+// ═══════════════════════════════════════════════════════════════════════════
+const TRANSLATIONS = {
+  ui: {
+    fr: {
+      tagline: "Du code qui tourne au code qui pense.",
+      tourButton: "Visite guidée",
+      scrollHint: "scroll pour descendre",
+      personalProject: "projet perso",
+      endTimeline: "// fin de la timeline",
+      footerMessage: "Tables have turned.",
+      heroMeta: "Ce portfolio: ~6h30 de développement du premier push au dernier moins deux heures de souper en famille"
+    },
+    en: {
+      tagline: "From code that runs to code that thinks.",
+      tourButton: "Guided tour",
+      scrollHint: "scroll to descend",
+      personalProject: "personal project",
+      endTimeline: "// end of timeline",
+      footerMessage: "Tables have turned.",
+      heroMeta: "This portfolio: ~6h30 of development from first push to last minus two hours of family dinner"
+    }
+  },
+  eras: {
+    fr: {
+      fondations: "Les Fondations",
+      echelle: "L'Échelle",
+      creatif: "Le Créatif",
+      sqdc: "L'Initiative SQDC",
+      multiplicateur: "Le Multiplicateur"
+    },
+    en: {
+      fondations: "The Foundations",
+      echelle: "Scaling Up",
+      creatif: "The Creative",
+      sqdc: "The SQDC Initiative",
+      multiplicateur: "The Multiplier"
+    }
+  },
+  // Timeline narratives and titles
+  timeline: {
+    en: [
+      // 0: Fondations - Blockchain Lab
+      {
+        title: "Full Stack Developer",
+        narrative: "My entry into the field. No framework, no safety net. Linux, raw JavaScript, web interfaces that talk directly to machines. I learned that code isn't just code — it's a living system that must stand on its own."
+      },
+      // 1: Fondations - AEC
+      {
+        title: "AEC Programmer Analyst",
+        narrative: "Formalizing what I had learned in the field. Databases, functional analysis, methodologies. Turning instinct into method."
+      },
+      // 2: Échelle - Desjardins
+      {
+        title: "Cloud DevOps Specialist",
+        narrative: "Desjardins. Not a startup — a financial institution with strict security requirements. VM clusters handling millions in insurance. CI/CD pipelines with security gates, Azure IAM management, deployment compliance. Secure cloud became my playground."
+      },
+      // 3: Créatif - Sarbakan
+      {
+        title: "R&D Backend Programmer",
+        narrative: "Game dev. A world where code must be beautiful AND fast. Docker on dedicated server, GitLab CI/CD, but most importantly: Unity, C#, and my first exposure to data-oriented programming. Distributed systems from DevOps meet real-time game development."
+      },
+      // 4: Créatif - SQDC Conseiller
+      {
+        title: "Advisor + Solo Dev",
+        narrative: "A strategic choice. By day, I advise customers and understand their needs on the floor. By night, I code solutions. SQDC taught me what no tutorial teaches: the real pain points of retail, what works in practice, and how to translate field needs into concrete tools."
+      },
+      // 5: SQDC Initiative
+      {
+        title: "The SQDC Initiative",
+        narrative: "A simple job that leaves me energy to code at night. And that's exactly what I do. The SQDC Products Portal, I built it quickly — a tool to make advisors' daily work easier. While I work during the day, I build at night."
+      },
+      // 6: Multiplicateur - AEC IA
+      {
+        title: "AEC Artificial Intelligence",
+        narrative: "The turning point. Everything I learned — systems, pipelines, game dev — converges. AI isn't a new skill, it's a multiplier of everything I already know how to do."
+      },
+      // 7: Multiplicateur - Orchestrateur
+      {
+        title: "The Orchestrator",
+        narrative: "I don't code everything anymore — I orchestrate. Local LLMs, collaborating agents, content-generating systems. Eight years of foundations to get here: from a programmer typing code to an architect directing agents."
+      }
+    ]
+  },
+  // Project one-liners
+  projects: {
+    en: {
+      "P5 RPG": "The beginning of my passion for AI: autonomous companions driven by reinforcement learning. RPG prototype developed before Sarbakan.",
+      "Spritesheet Splitter": "Automated pipeline for extracting sprites and generating GIF animations. Batch image processing with PIL.",
+      "500 Tops Rolling Stone": "Extraction and analysis of a 500-song dataset. Data cleaning, statistical visualizations.",
+      "SQDC Products Portal": "Web app for in-store product lookup. Indica/Sativa/Hybrid filtering, editable product sheets, print lists. Designed to make advisors' daily work easier.",
+      "SQDC Products DB": "MongoDB database of SQDC products. Data modeling, aggregation queries, JSON export. The Portal's backend.",
+      "GamePrototype ECS-DRL": "Deep Reinforcement Learning in pure C#, without ML-Agents. Enemies that learn while you play.",
+      "VR Boids": "Emergent behaviors in VR. The Boids algorithm as a first step towards multi-agent systems.",
+      "Gmail Tool Isabel": "Gmail sorting and archiving automation via API. OAuth 2.0 authentication, custom filters, batch processing.",
+      "Marie 2.0": "Dual-brain AI: two specialized LLMs (emotional + logical) thinking together. Neo4j memory, prompt chains, cognitive emergence.",
+      "Survivor-LLM": "Local LLM multi-agent system orchestrating autonomous companions in a 3D roguelike. Each NPC reasons, plans, and collaborates via specialized agents.",
+      "Dota 2 MCP Server": "MCP (Model Context Protocol) server exposing the Dota 2 API. Discord bot with replay analysis and TTS voice coaching.",
+      "PersonnaNpc": "Complete pipeline: LLM fine-tuning (DeepSeek) → TTS (Piper) → facial animation (Audio2Face) → Unity. NPCs with a soul.",
+      "AwooSurvivor 3D": "3D isometric survivor with dating sim. ECS architecture optimized for hundreds of simultaneous entities.",
+      "AwooSurvivor 2D": "2D survivor prototype. Rapid iteration to validate mechanics before the 3D version."
+    }
+  }
+};
+
 const PORTFOLIO_DATA = {
   meta: {
     name: "Ismaël Moreau",

@@ -27,8 +27,70 @@
   const STATE = {
     currentEra: null,
     currentNodeIndex: -1,  // Track current visible node
-    isInitialized: false   // Prevent batch unlock on page load
+    isInitialized: false,  // Prevent batch unlock on page load
+    currentLang: 'fr'      // Language: 'fr' | 'en'
   };
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Language Management
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Get UI translation
+  function t(key) {
+    if (typeof TRANSLATIONS === 'undefined') return key;
+    return TRANSLATIONS.ui[STATE.currentLang]?.[key] || TRANSLATIONS.ui['fr']?.[key] || key;
+  }
+
+  // Get localized era name
+  function getEraName(eraId) {
+    if (typeof TRANSLATIONS === 'undefined') return eraId;
+    return TRANSLATIONS.eras[STATE.currentLang]?.[eraId] || TRANSLATIONS.eras['fr']?.[eraId] || eraId;
+  }
+
+  // Get localized timeline text (narrative, title, place)
+  function getTimelineText(index, field) {
+    if (typeof TRANSLATIONS === 'undefined' || STATE.currentLang === 'fr') {
+      return null; // Use original data.js values
+    }
+    const entry = TRANSLATIONS.timeline?.en?.[index];
+    return entry?.[field] || null;
+  }
+
+  // Get localized project oneliner
+  function getProjectOneLiner(projectName) {
+    if (typeof TRANSLATIONS === 'undefined' || STATE.currentLang === 'fr') {
+      return null; // Use original data.js values
+    }
+    return TRANSLATIONS.projects?.en?.[projectName] || null;
+  }
+
+  function toggleLanguage() {
+    STATE.currentLang = STATE.currentLang === 'fr' ? 'en' : 'fr';
+
+    // Update button text
+    const langBtn = document.getElementById('langToggle');
+    if (langBtn) {
+      langBtn.textContent = STATE.currentLang === 'fr' ? 'EN' : 'FR';
+    }
+
+    // Update HTML lang attribute
+    document.documentElement.lang = STATE.currentLang;
+
+    // Re-render everything
+    renderAll();
+
+    // Notify audio manager of language change
+    if (window.AudioManager) {
+      window.AudioManager.setLanguage(STATE.currentLang);
+    }
+  }
+
+  function setupLanguageToggle() {
+    const langBtn = document.getElementById('langToggle');
+    if (langBtn) {
+      langBtn.addEventListener('click', toggleLanguage);
+    }
+  }
 
   // ═══════════════════════════════════════════════════════════════════════════
   // Hero Rendering
@@ -39,7 +101,7 @@
     if (nameEl) nameEl.textContent = meta.name || 'Your Name';
 
     const taglineEl = document.querySelector('.hero-tagline');
-    if (taglineEl) taglineEl.textContent = meta.tagline || '';
+    if (taglineEl) taglineEl.textContent = t('tagline');
 
     const emailLink = document.querySelector('[data-contact="email"]');
     if (emailLink && meta.contact?.email) {
@@ -54,6 +116,22 @@
       githubLink.target = '_blank';
       githubLink.rel = 'noopener noreferrer';
     }
+
+    // Update other UI elements
+    const heroMeta = document.querySelector('.hero-meta');
+    if (heroMeta) heroMeta.textContent = t('heroMeta');
+
+    const scrollHint = document.querySelector('.scroll-indicator .mono');
+    if (scrollHint) scrollHint.textContent = t('scrollHint');
+
+    const tourBtn = document.querySelector('.tour-button span:last-child');
+    if (tourBtn) tourBtn.textContent = t('tourButton');
+
+    const footerMono = document.querySelector('.footer .mono');
+    if (footerMono) footerMono.textContent = t('endTimeline');
+
+    const footerMessage = document.querySelector('.footer-message');
+    if (footerMessage) footerMessage.textContent = t('footerMessage');
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -89,7 +167,7 @@
     node.appendChild(period);
 
     if (entry.context) {
-      const context = createContext(entry.context);
+      const context = createContext(entry.context, index);
       node.appendChild(context);
     }
 
@@ -106,7 +184,7 @@
     return node;
   }
 
-  function createContext(ctx) {
+  function createContext(ctx, index) {
     const wrapper = document.createElement('div');
     wrapper.className = 'node-context';
 
@@ -117,20 +195,20 @@
 
     const title = document.createElement('h2');
     title.className = 'context-title';
-    title.textContent = ctx.title || '';
+    title.textContent = getTimelineText(index, 'title') || ctx.title || '';
     wrapper.appendChild(title);
 
     if (ctx.place) {
       const place = document.createElement('div');
       place.className = 'context-place';
-      place.textContent = ctx.place;
+      place.textContent = getTimelineText(index, 'place') || ctx.place;
       wrapper.appendChild(place);
     }
 
     if (ctx.narrative) {
       const narrative = document.createElement('p');
       narrative.className = 'context-narrative';
-      narrative.textContent = ctx.narrative;
+      narrative.textContent = getTimelineText(index, 'narrative') || ctx.narrative;
       wrapper.appendChild(narrative);
     }
 
@@ -198,7 +276,7 @@
     if (project.isPrivate) {
       const privateBadge = document.createElement('span');
       privateBadge.className = 'private-badge';
-      privateBadge.textContent = 'private';
+      privateBadge.textContent = t('private');
       header.appendChild(privateBadge);
     }
 
@@ -213,7 +291,7 @@
     else if (project.isPersonal) {
       const personalBadge = document.createElement('span');
       personalBadge.className = 'project-personal-badge';
-      personalBadge.textContent = 'projet perso';
+      personalBadge.textContent = t('personalProject');
       header.appendChild(personalBadge);
     }
 
@@ -225,7 +303,7 @@
     if (project.oneLiner) {
       const oneLiner = document.createElement('p');
       oneLiner.className = 'project-oneliner';
-      oneLiner.textContent = project.oneLiner;
+      oneLiner.textContent = getProjectOneLiner(project.name) || project.oneLiner;
       info.appendChild(oneLiner);
     }
 
@@ -442,10 +520,17 @@
     const nodes = document.querySelectorAll('.timeline-node');
     if (nodes.length === 0) return;
 
-    // Delay initialization to prevent batch unlock on page load
+    // Initialize with first node's era
+    if (nodes[0] && nodes[0].dataset.era) {
+      transitionToEra(nodes[0].dataset.era);
+    }
+
+    // Delay full initialization to prevent batch unlock on page load
     setTimeout(() => {
       STATE.isInitialized = true;
       updateSkillsForCurrentScroll();
+      // Re-check era based on current scroll position
+      detectCurrentEra();
     }, 500);
 
     // Use scroll listener for more reliable tracking (works with drag)
@@ -457,6 +542,7 @@
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         updateSkillsForCurrentScroll();
+        detectCurrentEra();
       }, 50);
     }, { passive: true });
 
@@ -515,14 +601,51 @@
     }
   }
 
+  function detectCurrentEra() {
+    const nodes = document.querySelectorAll('.timeline-node');
+    if (nodes.length === 0) return;
+
+    const viewportCenter = window.innerHeight / 2;
+    let currentEra = null;
+
+    // Find which node is closest to viewport center
+    nodes.forEach((node) => {
+      const rect = node.getBoundingClientRect();
+      // Node is considered "current" when it's in the viewport center area
+      if (rect.top < viewportCenter + 100 && rect.bottom > viewportCenter - 100) {
+        currentEra = node.dataset.era;
+      }
+    });
+
+    // Fallback: find the last node that's above viewport center
+    if (!currentEra) {
+      for (let i = nodes.length - 1; i >= 0; i--) {
+        const rect = nodes[i].getBoundingClientRect();
+        if (rect.top < viewportCenter) {
+          currentEra = nodes[i].dataset.era;
+          break;
+        }
+      }
+    }
+
+    // Fallback to first node's era if at top of page
+    if (!currentEra && nodes[0]) {
+      currentEra = nodes[0].dataset.era;
+    }
+
+    if (currentEra && currentEra !== STATE.currentEra) {
+      transitionToEra(currentEra);
+    }
+  }
+
   function transitionToEra(eraId) {
     STATE.currentEra = eraId;
     document.body.dataset.era = eraId;
 
     // Update skill panel era label
     const eraLabel = document.getElementById('eraLabel');
-    if (eraLabel && PORTFOLIO_DATA.eras && PORTFOLIO_DATA.eras[eraId]) {
-      eraLabel.textContent = PORTFOLIO_DATA.eras[eraId].name;
+    if (eraLabel) {
+      eraLabel.textContent = getEraName(eraId);
     }
 
     // Dispatch event for audio manager
@@ -648,8 +771,44 @@
     }
   }
 
+  // Re-render all content (called on language change)
+  function renderAll() {
+    if (typeof PORTFOLIO_DATA !== 'undefined') {
+      if (PORTFOLIO_DATA.meta) {
+        renderHero(PORTFOLIO_DATA.meta);
+      }
+      if (PORTFOLIO_DATA.timeline) {
+        // Preserve scroll position
+        const scrollY = window.scrollY;
+
+        renderTimeline(PORTFOLIO_DATA.timeline);
+
+        // Restore scroll position after render
+        requestAnimationFrame(() => {
+          window.scrollTo(0, scrollY);
+          // Re-trigger visibility and era detection
+          STATE.isInitialized = false;
+          setTimeout(() => {
+            STATE.isInitialized = true;
+            STATE.currentNodeIndex = -1; // Force rebuild
+            updateSkillsForCurrentScroll();
+          }, 100);
+        });
+      }
+
+      // Update era label if currently set
+      if (STATE.currentEra) {
+        const eraLabel = document.getElementById('eraLabel');
+        if (eraLabel) {
+          eraLabel.textContent = getEraName(STATE.currentEra);
+        }
+      }
+    }
+  }
+
   function init() {
     setupVideoModal();
+    setupLanguageToggle();
 
     // PORTFOLIO_DATA is defined in data.js (loaded before this script)
     if (typeof PORTFOLIO_DATA !== 'undefined') {

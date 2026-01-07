@@ -22,13 +22,13 @@
   --border: #1a1a24;
   --border-subtle: #14141c;
 
-  /* Era Theme Variables */
+  /* Era Theme Variables - Programming to AI progression */
   --era-accent: var(--accent);
   --era-accent-dim: var(--accent-dim);
-  --era1-accent: #00ffaa;
-  --era2-accent: #00d4ff;
-  --era3-accent: #a855f7;
-  --era4-accent: #00ffaa;
+  --era1-accent: #00ff88;      /* Terminal green - raw code beginnings */
+  --era2-accent: #0ea5e9;      /* Azure blue - cloud/enterprise */
+  --era3-accent: #c084fc;      /* Creative purple - game dev */
+  --era4-accent: #f472b6;      /* Neural pink/magenta - AI era */
 
   /* Typography */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
@@ -95,6 +95,33 @@ a {
   font-family: var(--font-mono);
   font-size: 0.85em;
   letter-spacing: -0.02em;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Language Toggle
+   ───────────────────────────────────────────────────────────────────────────── */
+.lang-toggle {
+  position: fixed;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.2s var(--ease-out-quad);
+}
+
+.lang-toggle:hover {
+  border-color: var(--era-accent, var(--accent));
+  color: var(--era-accent, var(--accent));
+  box-shadow: 0 0 15px var(--era-accent-dim, var(--accent-dim));
 }
 
 .serif {
@@ -916,30 +943,30 @@ a {
    Background and accent colors evolve as user scrolls through timeline
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Era 1: Fondations (2017-2019) - Terminal minimal */
+/* Era 1: Fondations (2017-2019) - Terminal green, raw code */
 body[data-era="fondations"] {
   --era-accent: var(--era1-accent);
-  --era-accent-dim: rgba(0, 255, 170, 0.25);
+  --era-accent-dim: rgba(0, 255, 136, 0.25);
 }
 
 body[data-era="fondations"] .bg-glow {
   background: radial-gradient(
     ellipse 80% 50% at 50% 0%,
-    rgba(0, 255, 170, 0.1) 0%,
+    rgba(0, 255, 136, 0.12) 0%,
     transparent 70%
   );
 }
 
-/* Era 2: L'Échelle (2019-2021) - Structure bleue */
+/* Era 2: L'Échelle (2019-2021) - Azure cloud blue */
 body[data-era="echelle"] {
   --era-accent: var(--era2-accent);
-  --era-accent-dim: rgba(0, 212, 255, 0.25);
+  --era-accent-dim: rgba(14, 165, 233, 0.25);
 }
 
 body[data-era="echelle"] .bg-glow {
   background: radial-gradient(
     ellipse 80% 50% at 50% 0%,
-    rgba(0, 212, 255, 0.15) 0%,
+    rgba(14, 165, 233, 0.15) 0%,
     transparent 70%
   );
 }
@@ -949,24 +976,24 @@ body[data-era="echelle"]::after {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(14, 165, 233, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.02) 1px, transparent 1px);
   background-size: 50px 50px;
   pointer-events: none;
   z-index: -1;
   opacity: 0.5;
 }
 
-/* Era 3: Le Créatif (2022-2023) - Purple créatif */
+/* Era 3: Le Créatif (2022-2023) - Game dev purple */
 body[data-era="creatif"] {
   --era-accent: var(--era3-accent);
-  --era-accent-dim: rgba(168, 85, 247, 0.25);
+  --era-accent-dim: rgba(192, 132, 252, 0.25);
 }
 
 body[data-era="creatif"] .bg-glow {
   background:
-    radial-gradient(ellipse 60% 40% at 30% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 70% 80%, rgba(0, 255, 170, 0.08) 0%, transparent 50%);
+    radial-gradient(ellipse 60% 40% at 30% 20%, rgba(192, 132, 252, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 70% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 50%);
 }
 
 body[data-era="creatif"]::after {
@@ -974,8 +1001,8 @@ body[data-era="creatif"]::after {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(168, 85, 247, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(168, 85, 247, 0.025) 1px, transparent 1px);
+    linear-gradient(rgba(192, 132, 252, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192, 132, 252, 0.025) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: -1;
@@ -1007,17 +1034,17 @@ body[data-era="sqdc"]::after {
   opacity: 0.6;
 }
 
-/* Era 4: Le Multiplicateur (2024-2025) - Neural mesh */
+/* Era 4: Le Multiplicateur (2024-2025) - Neural pink/magenta for AI era */
 body[data-era="multiplicateur"] {
   --era-accent: var(--era4-accent);
-  --era-accent-dim: rgba(0, 255, 170, 0.25);
+  --era-accent-dim: rgba(244, 114, 182, 0.25);
 }
 
 body[data-era="multiplicateur"] .bg-glow {
   background:
-    radial-gradient(ellipse 50% 30% at 20% 30%, rgba(0, 255, 170, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 30% at 80% 70%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 255, 170, 0.08) 0%, transparent 60%);
+    radial-gradient(ellipse 50% 30% at 20% 30%, rgba(244, 114, 182, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 30% at 80% 70%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(244, 114, 182, 0.1) 0%, transparent 60%);
   animation: neuralPulse 6s ease-in-out infinite;
 }
 
@@ -1026,9 +1053,9 @@ body[data-era="multiplicateur"]::after {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0, 255, 170, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 170, 0.02) 1px, transparent 1px),
-    linear-gradient(45deg, rgba(168, 85, 247, 0.015) 1px, transparent 1px);
+    linear-gradient(rgba(244, 114, 182, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 114, 182, 0.025) 1px, transparent 1px),
+    linear-gradient(45deg, rgba(168, 85, 247, 0.02) 1px, transparent 1px);
   background-size: 30px 30px, 30px 30px, 60px 60px;
   pointer-events: none;
   z-index: -1;
