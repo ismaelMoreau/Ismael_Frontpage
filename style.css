@@ -1262,30 +1262,98 @@ body[data-era] .scroll-arrow {
   }
 }
 
+/* Skill Toggle Button (hidden on desktop) */
+.skill-toggle {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  /* Mobile skill toggle button */
+  .skill-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: fixed;
+    bottom: var(--space-md);
+    right: var(--space-md);
+    width: auto;
+    min-width: 48px;
+    height: 48px;
+    padding: 0 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    z-index: 60;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out-quad);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .skill-toggle:active {
+    transform: scale(0.95);
+  }
+
+  .skill-toggle-icon {
+    width: 18px;
+    height: 18px;
+    background: var(--era-accent, var(--accent));
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5z'/%3E%3Cpath d='M2 17l10 5 10-5'/%3E%3Cpath d='M2 12l10 5 10-5'/%3E%3C/svg%3E") center/contain no-repeat;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5z'/%3E%3Cpath d='M2 17l10 5 10-5'/%3E%3Cpath d='M2 12l10 5 10-5'/%3E%3C/svg%3E") center/contain no-repeat;
+    transition: background 0.3s;
+  }
+
+  .skill-toggle-count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .skill-toggle.has-skills {
+    border-color: var(--era-accent, var(--accent));
+  }
+
+  /* Skill panel - hidden by default on mobile */
   .skill-panel {
     right: var(--space-sm);
     left: var(--space-sm);
     top: auto;
-    bottom: var(--space-md);
-    transform: none;
+    bottom: 70px;
+    transform: translateY(20px);
     width: auto;
-    max-height: 150px;
-    border-radius: 8px;
+    max-height: 45vh;
+    border-radius: 12px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .skill-panel.visible {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .skill-panel.mobile-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
   .skill-list {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-xs);
-    max-height: 90px;
+    max-height: calc(45vh - 80px);
   }
 
   .skill-item {
-    padding: 4px 8px;
+    padding: 6px 10px;
     background: var(--bg-elevated);
-    border-radius: 3px;
-    font-size: 0.7rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
   }
 
   .skill-item::before {
