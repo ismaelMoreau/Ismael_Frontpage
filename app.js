@@ -202,8 +202,15 @@
       header.appendChild(privateBadge);
     }
 
-    // Add personal project badge
-    if (project.isPersonal) {
+    // Add client badge for work projects (highlighted)
+    if (project.client) {
+      const clientBadge = document.createElement('span');
+      clientBadge.className = 'project-client-badge';
+      clientBadge.textContent = project.client;
+      header.appendChild(clientBadge);
+    }
+    // Add personal project badge (subtle)
+    else if (project.isPersonal) {
       const personalBadge = document.createElement('span');
       personalBadge.className = 'project-personal-badge';
       personalBadge.textContent = 'projet perso';
@@ -551,6 +558,9 @@
     panelObserver.observe(timeline);
   }
 
+  // Track pending skill additions to prevent duplicates during rapid scrolling
+  let pendingSkillAdditions = new Set();
+
   function rebuildSkillList(nodeIndex) {
     if (!PORTFOLIO_DATA.timeline) return;
 
@@ -574,17 +584,18 @@
       }
     }
 
-    // Get current skills in the DOM
+    // Get current skills in the DOM (use data attribute for reliable matching)
     const currentSkillEls = skillList.querySelectorAll('.skill-item');
-    const currentSkills = Array.from(currentSkillEls).map(el => el.textContent);
+    const currentSkills = Array.from(currentSkillEls).map(el => el.dataset.skill || el.textContent);
 
     // Determine what to add/remove
-    const toAdd = skillsToShow.filter(s => !currentSkills.includes(s));
+    const toAdd = skillsToShow.filter(s => !currentSkills.includes(s) && !pendingSkillAdditions.has(s));
     const toRemove = currentSkills.filter(s => !skillsToShow.includes(s));
 
     // Remove skills that shouldn't be shown anymore
     toRemove.forEach(skill => {
-      const el = Array.from(currentSkillEls).find(el => el.textContent === skill);
+      pendingSkillAdditions.delete(skill); // Clear from pending if was being added
+      const el = Array.from(currentSkillEls).find(el => (el.dataset.skill || el.textContent) === skill);
       if (el) {
         el.classList.add('removing');
         setTimeout(() => el.remove(), 300);
@@ -593,15 +604,26 @@
 
     // Add new skills with staggered animation
     toAdd.forEach((skill, i) => {
+      pendingSkillAdditions.add(skill);
       setTimeout(() => {
+        // Double-check skill isn't already in DOM before adding
+        const existingEls = skillList.querySelectorAll('.skill-item');
+        const alreadyExists = Array.from(existingEls).some(el => (el.dataset.skill || el.textContent) === skill);
+        if (alreadyExists) {
+          pendingSkillAdditions.delete(skill);
+          return;
+        }
+
         const li = document.createElement('li');
         li.className = 'skill-item animating';
         li.textContent = skill;
+        li.dataset.skill = skill; // Store skill name in data attribute for reliable matching
         skillList.appendChild(li);
 
         setTimeout(() => {
           li.classList.remove('animating');
           li.classList.add('unlocked');
+          pendingSkillAdditions.delete(skill);
         }, 400);
       }, i * CONFIG.skillUnlockDelay);
     });

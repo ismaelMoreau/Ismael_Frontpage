@@ -32,9 +32,15 @@ const PORTFOLIO_DATA = {
     },
     creatif: {
       name: 'Le Créatif',
-      years: '2022-2023',
+      years: '2022',
       accent: '#a855f7',
       audioFile: 'audio/act3.mp3'
+    },
+    sqdc: {
+      name: "L'Initiative SQDC",
+      years: '2023-2025',
+      accent: '#22c55e',
+      audioFile: 'audio/act3-5.mp3'
     },
     multiplicateur: {
       name: 'Le Multiplicateur',
@@ -62,7 +68,7 @@ const PORTFOLIO_DATA = {
         type: "work",
         title: "Développeur Full Stack",
         place: "Laboratoire Blockchain Inc.",
-        narrative: "Ma première vraie job. Pas de framework, pas de filet. Linux, JavaScript brut, interfaces web qui parlent directement aux machines. J'apprends que le code n'est pas juste du code — c'est un système qui vit, qui respire, qui doit tenir debout tout seul."
+        narrative: "Mon entrée dans le métier. Pas de framework, pas de filet. Linux, JavaScript brut, interfaces web qui parlent directement aux machines. J'apprends que le code n'est pas juste du code — c'est un système qui vit, qui respire, qui doit tenir debout tout seul."
       },
       projects: [],
       skills: ["Linux", "JavaScript", "HTML/CSS", "MongoDB", "Git", "Web Interfaces", "Systèmes Distribués"]
@@ -91,10 +97,10 @@ const PORTFOLIO_DATA = {
         type: "work",
         title: "Spécialiste DevOps Infonuagique",
         place: "Desjardins Assurance",
-        narrative: "Desjardins. Pas une startup — une institution. Des clusters de VM qui gèrent des millions en assurance. J'apprends que mon code ne suffit plus: il faut des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls à travers dev, QA et Prod. Le cloud devient mon terrain de jeu."
+        narrative: "Desjardins. Pas une startup — une institution financière avec des exigences de sécurité strictes. Des clusters de VM qui gèrent des millions en assurance. Pipelines CI/CD avec gates de sécurité, gestion IAM Azure, conformité des déploiements. Le cloud sécurisé devient mon terrain de jeu."
       },
       projects: [],
-      skills: ["Azure", "PowerShell", "Ansible", "Hadoop", "VM Clusters", "CI/CD Pipelines"]
+      skills: ["Azure", "PowerShell", "Ansible", "Hadoop", "VM Clusters", "CI/CD Pipelines", "Sécurité Cloud", "IAM"]
     },
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -108,24 +114,15 @@ const PORTFOLIO_DATA = {
         type: "work",
         title: "Programmeur R&D Backend",
         place: "Sarbakan",
-        narrative: "Game dev. Un monde où le code doit être beau ET rapide. Docker sur serveur dédié, GitLab CI/CD, mais surtout: Unity, C#, et la première exposition au ECS. Les systèmes distribués du DevOps rencontrent les systèmes temps réel du jeu vidéo."
+        narrative: "Game dev. Un monde où le code doit être beau ET rapide. Docker sur serveur dédié, GitLab CI/CD, mais surtout: Unity, C#, et la première exposition à la programmation orientée données. Les systèmes distribués du DevOps rencontrent les systèmes temps réel du jeu vidéo."
       },
       projects: [
         {
-          name: "P5 RPG - Game Over",
-          repo: "ismaelMoreau/P5_rpg",
-          video: "videos/P5_rpg-GameOver.mkv",
-          oneLiner: "Mon premier jeu. Du JavaScript brut pour comprendre les boucles de gameplay.",
-          tech: ["p5.js", "JavaScript"],
-          isPersonal: true,
-          link: null
-        },
-        {
-          name: "P5 RPG - Bubble",
+          name: "P5 RPG",
           repo: "ismaelMoreau/P5_rpg",
           video: "videos/P5_rpg-bubble.mkv",
-          oneLiner: "Variante bubble du jeu. Exploration des mécaniques de collision et spawning.",
-          tech: ["p5.js", "JavaScript"],
+          oneLiner: "Le début de mon engouement pour l'IA: compagnons autonomes pilotés par renforcement. Prototype RPG développé avant Sarbakan.",
+          tech: ["JavaScript", "p5.js", "Canvas", "Reinforcement Learning", "AI Companions"],
           isPersonal: true,
           link: null
         }
@@ -145,7 +142,7 @@ const PORTFOLIO_DATA = {
         {
           name: "Spritesheet Splitter",
           repo: "ismaelMoreau/spritesheetspliter",
-          oneLiner: "Outil Python pour découper des spritesheets et créer des GIFs. Premiers pas en traitement d'image.",
+          oneLiner: "Pipeline automatisé pour extraire des sprites et générer des animations GIF. Traitement d'image batch avec PIL.",
           tech: ["Python", "PIL/Pillow", "Jupyter"],
           isPersonal: true,
           link: null
@@ -153,13 +150,47 @@ const PORTFOLIO_DATA = {
         {
           name: "500 Tops Rolling Stone",
           repo: "ismaelMoreau/500tops_rollings_stone_song",
-          oneLiner: "Analyse de données musicales. Explorer des datasets pour le fun.",
-          tech: ["Python", "Data Analysis"],
+          oneLiner: "Extraction et analyse d'un dataset de 500 chansons. Nettoyage de données, visualisations statistiques.",
+          tech: ["Python", "Pandas", "Data Analysis"],
           isPersonal: true,
           link: null
         }
       ],
       skills: ["Python", "Image Processing", "Tool Development", "Commerce de Détail", "Analyse Besoins", "Connaissance Produits"]
+    },
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // ACTE 3.5: L'INITIATIVE SQDC (2023-2025)
+    // "Quand l'expérience terrain génère des outils concrets"
+    // ═══════════════════════════════════════════════════════════════════════════
+    {
+      period: "2023-2025",
+      era: "sqdc",
+      context: {
+        type: "work",
+        title: "L'Initiative SQDC",
+        place: "SQDC",
+        narrative: "Un travail simple qui me laisse l'énergie de coder le soir. Et c'est exactement ce que je fais. Le SQDC Products Portal, je l'ai monté rapidement — un outil pour faciliter le quotidien des conseillers. Pendant que je travaille le jour, je construis la nuit."
+      },
+      projects: [
+        {
+          name: "SQDC Products Portal",
+          repo: "ismaelMoreau/sqdcProductsPortal",
+          oneLiner: "Application web pour consultation produits en succursale. Filtrage Indica/Sativa/Hybride, fiches modifiables, listes d'impression. Conçu pour faciliter le quotidien des conseillers.",
+          tech: ["JavaScript ES6+", "HTML5", "CSS3", "LocalStorage"],
+          client: "Outil interne SQDC",
+          link: "https://ismaelmoreau.github.io/sqdcProductsPortal/"
+        },
+        {
+          name: "SQDC Products DB",
+          repo: "ismaelMoreau/sqdc-personal-bd",
+          oneLiner: "Base de données MongoDB des produits SQDC. Modélisation de données, requêtes d'agrégation, export JSON. Le backend du Portal.",
+          tech: ["MongoDB", "Data Modeling", "JSON", "Aggregation Pipelines"],
+          isPersonal: true,
+          link: null
+        }
+      ],
+      skills: ["Full Stack", "UX/UI", "Besoins Métier", "Prototypage Rapide", "MongoDB", "JavaScript ES6+"]
     },
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -196,25 +227,9 @@ const PORTFOLIO_DATA = {
         {
           name: "Gmail Tool Isabel",
           repo: "ismaelMoreau/gmail_tool_isabel",
-          oneLiner: "Automatisation Gmail avec Jupyter. Python + APIs = le début de l'orchestration.",
+          oneLiner: "Automatisation du tri et archivage Gmail via API. Authentification OAuth 2.0, filtres personnalisés, traitement batch.",
           tech: ["Python", "Gmail API", "OAuth 2.0", "Jupyter"],
-          isPersonal: true,
-          link: null
-        },
-        {
-          name: "SQDC Personal BD",
-          repo: "ismaelMoreau/sqdc-personal-bd",
-          oneLiner: "Base de données personnelle des produits SQDC. Structurer mes connaissances terrain.",
-          tech: ["Data Structuring"],
-          isPersonal: true,
-          link: null
-        },
-        {
-          name: "Cours-A61",
-          repo: "ismaelMoreau/Cours-A61",
-          oneLiner: "Travaux de mise en production. DevOps, CI/CD, environnements.",
-          tech: ["DevOps", "CI/CD", "Déploiement"],
-          isPersonal: true,
+          client: "Mandat client",
           link: null
         }
       ],
@@ -241,15 +256,15 @@ const PORTFOLIO_DATA = {
         {
           name: "Survivor-LLM",
           isPrivate: true,
-          oneLiner: "Roguelike 3D avec compagnons IA conversationnels. ECS haute performance + LLM local = dialogues émergents en temps réel.",
-          tech: ["Unity 6", "C#", "ECS/DOTS", "LLMUnity", "Ollama"],
+          oneLiner: "Système multi-agents LLM locaux orchestrant des compagnons autonomes dans un roguelike 3D. Chaque NPC raisonne, planifie et collabore via des agents spécialisés.",
+          tech: ["Unity 6", "C#", "ECS/DOTS", "LLMUnity", "Ollama", "Multi-Agent Systems"],
           isPersonal: true,
           link: null
         },
         {
           name: "Dota 2 MCP Server",
           repo: "ismaelMoreau/Dota_2_MCP_Server_",
-          oneLiner: "Model Context Protocol + bot Discord coach. L'IA qui analyse ta game et te conseille en temps réel via TTS.",
+          oneLiner: "Serveur MCP (Model Context Protocol) exposant l'API Dota 2. Bot Discord avec analyse de replays et coaching vocal TTS.",
           tech: ["Python", "FastAPI", "Discord.py", "Docker", "MCP Protocol"],
           isPersonal: true,
           link: null
@@ -264,32 +279,24 @@ const PORTFOLIO_DATA = {
           link: null
         },
         {
-          name: "SQDC Products Portal",
-          repo: "ismaelMoreau/sqdcProductsPortal",
-          oneLiner: "Application métier 100% vanilla JS pour la succursale. Parfois le meilleur framework, c'est pas de framework.",
-          tech: ["JavaScript ES6+", "HTML5", "CSS3", "LocalStorage"],
-          isPersonal: true,
-          link: "https://ismaelmoreau.github.io/sqdcProductsPortal/"
-        },
-        {
           name: "AwooSurvivor 3D",
           isPrivate: true,
           video: "videos/AWOOSURVIVOR 3D (2025).mp4",
-          oneLiner: "Vampire survivors-like 3D isométrique avec dating sim. ECS optimisé pour des centaines d'entités simultanées.",
+          oneLiner: "Survivor 3D isométrique avec dating sim. Architecture ECS optimisée pour des centaines d'entités simultanées.",
           tech: ["Unity 6", "C#", "ECS 1.4", "Rukhanka Animation", "HLSL"],
-          isPersonal: true,
+          client: "Awootoys",
           link: null
         },
         {
           name: "AwooSurvivor 2D",
           isPrivate: true,
-          oneLiner: "Version 2D du survivor. Prototype qui a mené à la version 3D — l'itération comme méthode.",
+          oneLiner: "Prototype 2D du survivor. Itération rapide pour valider les mécaniques avant la version 3D.",
           tech: ["Unity", "C#", "ECS 1.4", "Physics 2D"],
-          isPersonal: true,
+          client: "Awootoys",
           link: null
         }
       ],
-      skills: ["LLM Integration", "Prompt Engineering", "Multi-Agent Systems", "MCP Protocol", "Fine-tuning", "Neo4j"]
+      skills: ["LLM Integration", "Context Engineering", "Multi-Agent Systems", "MCP Protocol", "Fine-tuning", "Neo4j"]
     }
   ]
 };

@@ -12,10 +12,11 @@
       "Salut. Moi c'est Ismaël.",
       "Ça fait huit ans que je construis des trucs avec du code.",
       "Des systèmes distribués, des jeux vidéo, des pipelines DevOps...",
-      "Et maintenant, des agents IA qui pensent pour moi."
+      "Et maintenant, des agents IA qui travaillent pour moi.",
+      "Laisse-moi te montrer comment j'en suis arrivé là."
     ],
     fondations: [
-      "2017. Ma première vraie job.",
+      "2017. Mon entrée dans le métier.",
       "Laboratoire Blockchain. Pas de React, pas de framework fancy.",
       "Du JavaScript brut, du Linux, MongoDB pour les données, et des interfaces qui parlent aux machines.",
       "C'est là que j'ai compris que le code, c'est pas juste des lignes sur un écran.",
@@ -23,31 +24,40 @@
     ],
     echelle: [
       "2019. Desjardins Assurance.",
-      "Pas une startup. Une institution.",
+      "Pas une startup. Une institution financière avec des exigences de sécurité strictes.",
       "Des clusters de VM qui gèrent des millions en assurance.",
       "Soudainement, mon code seul suffisait plus.",
-      "Fallait des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls à travers dev, QA et Prod."
+      "Fallait des pipelines sécurisés, de l'automatisation, des systèmes qui se déploient tout seuls à travers dev, QA et Prod.",
+      "Gestion IAM Azure, gates de sécurité, conformité. Le cloud sécurisé est devenu mon terrain de jeu."
     ],
     creatif: [
-      "2022. Changement de cap. Sarbakan.",
-      "Game dev. Un monde où le code doit être beau ET rapide.",
-      "Unity, C#, React, et ma première rencontre avec l'ECS.",
-      "Les systèmes distribués du DevOps qui rencontrent le temps réel du jeu vidéo.",
-      "Ensuite, la SQDC. Un choix stratégique.",
-      "C'est là que j'ai compris les vrais besoins terrain. Ce que les conseillers vivent au quotidien."
+      "2022. Changement de cap.",
+      "Sarbakan, un studio de jeux vidéo.",
+      "Un monde où le code doit être beau et rapide en même temps.",
+      "Unity, C#, React. Ma première rencontre avec la programmation orientée données.",
+      "Après le cloud d'entreprise, je découvre le temps réel du jeu vidéo."
+    ],
+    sqdc: [
+      "Puis la SQDC.",
+      "Un travail simple qui me laisse l'énergie de coder le soir.",
+      "Et c'est exactement ce que je fais.",
+      "Le SQDC Products Portal, je l'ai monté rapidement — un outil pour les conseillers.",
+      "Pendant que je travaille le jour, je construis la nuit."
     ],
     multiplicateur: [
-      "2024. Le turning point.",
-      "AEC en Intelligence Artificielle. Mais c'était pas juste apprendre.",
+      "2024. Le tournant décisif.",
+      "AEC en Intelligence Artificielle. Mais c'était pas juste apprendre une nouvelle compétence.",
       "L'IA, c'est un multiplicateur de tout ce que je savais déjà faire.",
-      "Deep Reinforcement Learning en C# pur. Des ennemis qui apprennent pendant qu'on joue.",
-      "Des LLM locaux qui collaborent. MongoDB pour les données, Neo4j pour les relations.",
-      "Je code plus tout. J'orchestre."
+      "Mes projets le prouvent.",
+      "Apprentissage par renforcement profond en C# pur. Des ennemis qui apprennent pendant qu'on joue.",
+      "Des grands modèles de langage locaux qui collaborent. MongoDB pour les données, Neo4j pour les relations.",
+      "Aujourd'hui, je ne code plus tout seul. J'orchestre des agents qui codent pour moi."
     ],
     outro: [
       "Voilà. Huit ans résumés en quelques minutes.",
       "Du programmeur qui tape du code à l'architecte qui dirige des agents.",
-      "Les tables ont tourné."
+      "Les tables ont tourné.",
+      "Si tu veux jaser, mon email est juste là."
     ]
   };
 
@@ -91,7 +101,7 @@
       this.isActive = false;
       this.isPaused = false;
       this.isMuted = false;
-      this.sectionQueue = ['intro', 'fondations', 'echelle', 'creatif', 'multiplicateur', 'outro'];
+      this.sectionQueue = ['intro', 'fondations', 'echelle', 'creatif', 'sqdc', 'multiplicateur', 'outro'];
       this.currentQueueIndex = 0;
 
       // DOM elements
