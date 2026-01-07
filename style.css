@@ -497,6 +497,54 @@ a {
   font-size: 0.8rem;
 }
 
+/* Multiple videos area */
+.project-multi-video-wrap {
+  display: flex;
+  gap: 4px;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-elevated);
+}
+
+.project-video-item {
+  position: relative;
+  flex: 1;
+  background: var(--bg-surface);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s var(--ease-out-quad);
+}
+
+.project-video-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, var(--bg-surface));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.project-video-item:hover {
+  flex: 1.2;
+}
+
+.project-video-item:hover .project-play {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 0 50px var(--accent-dim);
+}
+
+.video-label {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background: var(--bg-void);
+  padding: 2px 6px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
 /* Thumbnail area (static image) */
 .project-thumbnail-wrap {
   position: relative;
