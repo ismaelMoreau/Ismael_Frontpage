@@ -185,6 +185,14 @@ a {
   animation: fadeSlideUp 0.8s var(--ease-out-expo) 0.8s forwards;
 }
 
+.hero-meta {
+  margin-top: var(--space-lg);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  opacity: 0;
+  animation: fadeSlideUp 0.8s var(--ease-out-expo) 1s forwards;
+}
+
 .contact-link {
   color: var(--text-secondary);
   padding: var(--space-sm) var(--space-md);

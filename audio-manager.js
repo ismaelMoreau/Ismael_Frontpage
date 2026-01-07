@@ -61,38 +61,47 @@
     ]
   };
 
-  // Calculate duration based on word count (~150 words per minute = 2.5 words per second)
-  // Add small buffer for pauses between phrases
-  const WORDS_PER_SECOND = 2.2;
-  const PAUSE_BETWEEN_LINES = 0.3;
-
-  function calculateDuration(text) {
-    const words = text.split(/\s+/).length;
-    return (words / WORDS_PER_SECOND) + PAUSE_BETWEEN_LINES;
+  // Calculate word count for proportional timing
+  function getWordCount(text) {
+    return text.split(/\s+/).length;
   }
 
-  function buildSubtitles(texts) {
+  // Build subtitles dynamically based on actual audio duration
+  // Distributes time proportionally based on word count
+  function buildSubtitlesForDuration(texts, audioDuration) {
     const subs = [];
-    let currentTime = 0.5; // Start with small delay
 
-    texts.forEach(text => {
-      const duration = calculateDuration(text);
+    // Calculate total words
+    const wordCounts = texts.map(getWordCount);
+    const totalWords = wordCounts.reduce((a, b) => a + b, 0);
+
+    // Reserve time for start delay and gaps between lines
+    const startDelay = 0.3;
+    const gapPerLine = 0.15;
+    const totalGaps = gapPerLine * (texts.length - 1);
+    const availableTime = audioDuration - startDelay - totalGaps;
+
+    let currentTime = startDelay;
+
+    texts.forEach((text, i) => {
+      // Duration proportional to word count
+      const proportion = wordCounts[i] / totalWords;
+      const duration = availableTime * proportion;
+
       subs.push({
         start: currentTime,
         end: currentTime + duration,
         text: text
       });
-      currentTime += duration;
+
+      currentTime += duration + gapPerLine;
     });
 
     return subs;
   }
 
-  // Build subtitles with dynamic timestamps
-  const SUBTITLES = {};
-  Object.keys(SUBTITLE_TEXTS).forEach(key => {
-    SUBTITLES[key] = buildSubtitles(SUBTITLE_TEXTS[key]);
-  });
+  // Cache for dynamically calculated subtitles per section
+  const DYNAMIC_SUBTITLES = {};
 
   class AudioManager {
     constructor() {
@@ -196,6 +205,15 @@
         this.onSectionEnd();
       });
 
+      // Calculate subtitles based on actual audio duration when metadata loads
+      this.currentAudio.addEventListener('loadedmetadata', () => {
+        const duration = this.currentAudio.duration;
+        const texts = SUBTITLE_TEXTS[sectionId];
+        if (texts && duration && isFinite(duration)) {
+          DYNAMIC_SUBTITLES[sectionId] = buildSubtitlesForDuration(texts, duration);
+        }
+      });
+
       this.fadeIn(this.currentAudio);
 
       // Highlight active timeline node
@@ -246,7 +264,8 @@
     updateSubtitle() {
       if (!this.currentAudio || !this.subtitleEl) return;
 
-      const subs = SUBTITLES[this.currentSection];
+      // Use dynamically calculated subtitles based on actual audio duration
+      const subs = DYNAMIC_SUBTITLES[this.currentSection];
       if (!subs) {
         this.subtitleEl.classList.remove('visible');
         return;
