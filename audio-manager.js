@@ -31,16 +31,18 @@
     creatif: [
       "2022. Changement de cap. Sarbakan.",
       "Game dev. Un monde où le code doit être beau ET rapide.",
-      "Unity, C#, et ma première rencontre avec l'ECS.",
+      "Unity, C#, React, et ma première rencontre avec l'ECS.",
       "Les systèmes distribués du DevOps qui rencontrent le temps réel du jeu vidéo.",
-      "Ensuite, la SQDC. Un choix délibéré. Plus de temps pour mes projets."
+      "Ensuite, la SQDC. Un choix stratégique.",
+      "C'est là que j'ai compris les vrais besoins terrain. Ce que les conseillers vivent au quotidien."
     ],
     multiplicateur: [
       "2024. Le turning point.",
       "AEC en Intelligence Artificielle. Mais c'était pas juste apprendre.",
       "L'IA, c'est un multiplicateur de tout ce que je savais déjà faire.",
       "Deep Reinforcement Learning en C# pur. Des ennemis qui apprennent pendant qu'on joue.",
-      "Des LLM locaux qui collaborent. Je code plus tout. J'orchestre."
+      "Des LLM locaux qui collaborent. MongoDB pour les données, Neo4j pour les relations.",
+      "Je code plus tout. J'orchestre."
     ],
     outro: [
       "Voilà. Huit ans résumés en quelques minutes.",

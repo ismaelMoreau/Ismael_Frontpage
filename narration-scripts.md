@@ -35,23 +35,25 @@ Scripts pour générer les fichiers audio TTS. Chaque section dure environ 20-25
 
 ---
 
-## Acte 3: Le Créatif (~23s)
+## Acte 3: Le Créatif (~25s)
 
 > 2022. Changement de cap. Sarbakan, un studio de jeux.
 > Game dev. Un monde où le code doit être beau ET rapide.
-> Unity, C#, et ma première rencontre avec l'ECS.
+> Unity, C#, React, et ma première rencontre avec l'ECS.
 > Les systèmes distribués du DevOps qui rencontrent les systèmes temps réel du jeu vidéo.
-> Ensuite, la SQDC. Un choix délibéré. Moins de pression, plus de temps pour construire mes propres projets.
+> Ensuite, la SQDC. Un choix stratégique.
+> C'est là que j'ai compris les vrais besoins terrain. Ce que les conseillers vivent au quotidien, les outils qui manquent.
 
 ---
 
-## Acte 4: Le Multiplicateur (~24s)
+## Acte 4: Le Multiplicateur (~26s)
 
 > 2024. Le turning point.
 > AEC en Intelligence Artificielle. Mais c'était pas juste apprendre une nouvelle compétence.
 > L'IA, c'est un multiplicateur de tout ce que je savais déjà faire.
 > Deep Reinforcement Learning en C# pur. Des ennemis qui apprennent pendant qu'on joue.
-> Des LLM locaux qui collaborent. Je code plus tout. J'orchestre.
+> Des LLM locaux qui collaborent. MongoDB pour les données, Neo4j pour les relations.
+> Je code plus tout. J'orchestre.
 
 ---
 

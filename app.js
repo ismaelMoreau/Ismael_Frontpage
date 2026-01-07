@@ -202,6 +202,14 @@
       header.appendChild(privateBadge);
     }
 
+    // Add personal project badge
+    if (project.isPersonal) {
+      const personalBadge = document.createElement('span');
+      personalBadge.className = 'project-personal-badge';
+      personalBadge.textContent = 'projet perso';
+      header.appendChild(personalBadge);
+    }
+
     const links = createProjectLinks(project);
     if (links) header.appendChild(links);
 

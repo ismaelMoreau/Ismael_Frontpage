@@ -65,7 +65,7 @@ const PORTFOLIO_DATA = {
         narrative: "Ma première vraie job. Pas de framework, pas de filet. Linux, JavaScript brut, interfaces web qui parlent directement aux machines. J'apprends que le code n'est pas juste du code — c'est un système qui vit, qui respire, qui doit tenir debout tout seul."
       },
       projects: [],
-      skills: ["Linux", "JavaScript", "HTML/CSS", "Web Interfaces", "Systèmes Distribués"]
+      skills: ["Linux", "JavaScript", "HTML/CSS", "MongoDB", "Git", "Web Interfaces", "Systèmes Distribués"]
     },
     {
       period: "2019",
@@ -91,7 +91,7 @@ const PORTFOLIO_DATA = {
         type: "work",
         title: "Spécialiste DevOps Infonuagique",
         place: "Desjardins Assurance",
-        narrative: "Desjardins. Pas une startup — une institution. Des clusters de VM qui gèrent des millions en assurance. J'apprends que mon code ne suffit plus: il faut des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls. Le cloud devient mon terrain de jeu."
+        narrative: "Desjardins. Pas une startup — une institution. Des clusters de VM qui gèrent des millions en assurance. J'apprends que mon code ne suffit plus: il faut des pipelines, de l'automatisation, des systèmes qui se déploient tout seuls à travers dev, QA et Prod. Le cloud devient mon terrain de jeu."
       },
       projects: [],
       skills: ["Azure", "PowerShell", "Ansible", "Hadoop", "VM Clusters", "CI/CD Pipelines"]
@@ -117,6 +117,7 @@ const PORTFOLIO_DATA = {
           video: "videos/P5_rpg-GameOver.mkv",
           oneLiner: "Mon premier jeu. Du JavaScript brut pour comprendre les boucles de gameplay.",
           tech: ["p5.js", "JavaScript"],
+          isPersonal: true,
           link: null
         },
         {
@@ -125,10 +126,11 @@ const PORTFOLIO_DATA = {
           video: "videos/P5_rpg-bubble.mkv",
           oneLiner: "Variante bubble du jeu. Exploration des mécaniques de collision et spawning.",
           tech: ["p5.js", "JavaScript"],
+          isPersonal: true,
           link: null
         }
       ],
-      skills: ["Unity", "C#", "Docker", "GitLab CI/CD", "ECS Patterns", "Agile"]
+      skills: ["Unity", "C#", "React", "Docker", "Git", "GitLab CI/CD", "ECS Patterns", "Agile"]
     },
     {
       period: "2023",
@@ -137,7 +139,7 @@ const PORTFOLIO_DATA = {
         type: "work",
         title: "Conseiller + Dev solo",
         place: "SQDC",
-        narrative: "Un choix délibéré. Moins de pression, plus de temps pour construire. Le jour je conseille, le soir je code. La SQDC devient mon labo: je comprends les besoins terrain et je construis des outils pour y répondre."
+        narrative: "Un choix stratégique. Le jour, je conseille les clients et je comprends leurs besoins sur le plancher. Le soir, je code des solutions. La SQDC m'a appris ce qu'aucun tutoriel n'enseigne: les vrais pain points du commerce de détail, ce qui fonctionne en pratique, et comment traduire les besoins terrain en outils concrets."
       },
       projects: [
         {
@@ -145,6 +147,7 @@ const PORTFOLIO_DATA = {
           repo: "ismaelMoreau/spritesheetspliter",
           oneLiner: "Outil Python pour découper des spritesheets et créer des GIFs. Premiers pas en traitement d'image.",
           tech: ["Python", "PIL/Pillow", "Jupyter"],
+          isPersonal: true,
           link: null
         },
         {
@@ -152,10 +155,11 @@ const PORTFOLIO_DATA = {
           repo: "ismaelMoreau/500tops_rollings_stone_song",
           oneLiner: "Analyse de données musicales. Explorer des datasets pour le fun.",
           tech: ["Python", "Data Analysis"],
+          isPersonal: true,
           link: null
         }
       ],
-      skills: ["Python", "Image Processing", "Tool Development", "Connaissance Produits"]
+      skills: ["Python", "Image Processing", "Tool Development", "Commerce de Détail", "Analyse Besoins", "Connaissance Produits"]
     },
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -178,6 +182,7 @@ const PORTFOLIO_DATA = {
           video: "videos/GamePrototype-ECS-DRL-demo.mp4",
           oneLiner: "Deep Reinforcement Learning en C# pur, sans ML-Agents. Des ennemis qui apprennent pendant qu'on joue.",
           tech: ["Unity 6", "C#", "ECS/DOTS", "Reinforcement Learning"],
+          isPersonal: true,
           link: null
         },
         {
@@ -185,6 +190,7 @@ const PORTFOLIO_DATA = {
           isPrivate: true,
           oneLiner: "Comportements émergents en VR. L'algorithme Boids comme premier pas vers les systèmes multi-agents.",
           tech: ["Unity", "C#", "XR Toolkit", "Boids Algorithm"],
+          isPersonal: true,
           link: null
         },
         {
@@ -192,6 +198,7 @@ const PORTFOLIO_DATA = {
           repo: "ismaelMoreau/gmail_tool_isabel",
           oneLiner: "Automatisation Gmail avec Jupyter. Python + APIs = le début de l'orchestration.",
           tech: ["Python", "Gmail API", "OAuth 2.0", "Jupyter"],
+          isPersonal: true,
           link: null
         },
         {
@@ -199,6 +206,7 @@ const PORTFOLIO_DATA = {
           repo: "ismaelMoreau/sqdc-personal-bd",
           oneLiner: "Base de données personnelle des produits SQDC. Structurer mes connaissances terrain.",
           tech: ["Data Structuring"],
+          isPersonal: true,
           link: null
         },
         {
@@ -206,10 +214,11 @@ const PORTFOLIO_DATA = {
           repo: "ismaelMoreau/Cours-A61",
           oneLiner: "Travaux de mise en production. DevOps, CI/CD, environnements.",
           tech: ["DevOps", "CI/CD", "Déploiement"],
+          isPersonal: true,
           link: null
         }
       ],
-      skills: ["Machine Learning", "Deep Learning", "PyTorch", "MLOps", "Reinforcement Learning"]
+      skills: ["Machine Learning", "Deep Learning", "PyTorch", "MongoDB", "MLOps", "Reinforcement Learning"]
     },
     {
       period: "2025",
@@ -226,6 +235,7 @@ const PORTFOLIO_DATA = {
           isPrivate: true,
           oneLiner: "Dual-brain AI: deux LLM spécialisés (émotionnel + logique) qui pensent ensemble. Mémoire Neo4j, prompt chains, émergence cognitive.",
           tech: ["Python", "Neo4j", "Docker", "Ollama", "Llama 3.1"],
+          isPersonal: true,
           link: null
         },
         {
@@ -233,6 +243,7 @@ const PORTFOLIO_DATA = {
           isPrivate: true,
           oneLiner: "Roguelike 3D avec compagnons IA conversationnels. ECS haute performance + LLM local = dialogues émergents en temps réel.",
           tech: ["Unity 6", "C#", "ECS/DOTS", "LLMUnity", "Ollama"],
+          isPersonal: true,
           link: null
         },
         {
@@ -240,6 +251,7 @@ const PORTFOLIO_DATA = {
           repo: "ismaelMoreau/Dota_2_MCP_Server_",
           oneLiner: "Model Context Protocol + bot Discord coach. L'IA qui analyse ta game et te conseille en temps réel via TTS.",
           tech: ["Python", "FastAPI", "Discord.py", "Docker", "MCP Protocol"],
+          isPersonal: true,
           link: null
         },
         {
@@ -248,6 +260,7 @@ const PORTFOLIO_DATA = {
           video: "videos/PersonnaNpc-firstTest.mkv",
           oneLiner: "Pipeline complet: fine-tuning LLM (DeepSeek) → TTS (Piper) → animation faciale (Audio2Face) → Unity. Des NPC avec une âme.",
           tech: ["Python", "DeepSeek", "Piper TTS", "NVIDIA Audio2Face", "Unity"],
+          isPersonal: true,
           link: null
         },
         {
@@ -255,6 +268,7 @@ const PORTFOLIO_DATA = {
           repo: "ismaelMoreau/sqdcProductsPortal",
           oneLiner: "Application métier 100% vanilla JS pour la succursale. Parfois le meilleur framework, c'est pas de framework.",
           tech: ["JavaScript ES6+", "HTML5", "CSS3", "LocalStorage"],
+          isPersonal: true,
           link: "https://ismaelmoreau.github.io/sqdcProductsPortal/"
         },
         {
@@ -263,6 +277,7 @@ const PORTFOLIO_DATA = {
           video: "videos/AWOOSURVIVOR 3D (2025).mp4",
           oneLiner: "Vampire survivors-like 3D isométrique avec dating sim. ECS optimisé pour des centaines d'entités simultanées.",
           tech: ["Unity 6", "C#", "ECS 1.4", "Rukhanka Animation", "HLSL"],
+          isPersonal: true,
           link: null
         },
         {
@@ -270,6 +285,7 @@ const PORTFOLIO_DATA = {
           isPrivate: true,
           oneLiner: "Version 2D du survivor. Prototype qui a mené à la version 3D — l'itération comme méthode.",
           tech: ["Unity", "C#", "ECS 1.4", "Physics 2D"],
+          isPersonal: true,
           link: null
         }
       ],
